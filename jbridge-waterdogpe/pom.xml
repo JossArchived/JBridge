@@ -9,6 +9,6 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>jbridge-client</artifactId>
+    <artifactId>jbridge-waterdogpe</artifactId>
 
 </project>

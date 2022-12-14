@@ -9,6 +9,6 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>jbridge-server</artifactId>
+    <artifactId>jbridge-nukkit</artifactId>
 
 </project>

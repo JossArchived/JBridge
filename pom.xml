@@ -11,10 +11,11 @@
     <packaging>pom</packaging>
 
     <name>JBridge</name>
+
     <modules>
-        <module>jbridge-client</module>
-        <module>jbridge-server</module>
         <module>commons</module>
+        <module>jbridge-nukkit</module>
+        <module>jbridge-waterdogpe</module>
     </modules>
 
     <properties>
