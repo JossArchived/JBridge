@@ -1,0 +1,5 @@
+name: JBridge
+main: me.josscoder.jbridge.JBridgeNukkit
+api: 1.0.0
+version: ${project.version}
+author: Josscoder
