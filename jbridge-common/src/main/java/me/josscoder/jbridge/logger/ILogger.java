@@ -1,6 +1,6 @@
 package me.josscoder.jbridge.logger;
 
-public interface ILoggerHandler {
+public interface ILogger {
 
     void info(String message);
     void warn(String message);

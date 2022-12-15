@@ -5,7 +5,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.Getter;
-import me.josscoder.jbridge.logger.ILoggerHandler;
+import me.josscoder.jbridge.logger.ILogger;
 import me.josscoder.jbridge.service.ServiceInfo;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -30,7 +30,7 @@ public class JBridgeCore {
             .expireAfterWrite(10, TimeUnit.SECONDS)
             .build();
 
-    public static void boot(String hostname, int port, String password, ILoggerHandler logger) {
+    public static void boot(String hostname, int port, String password, final ILogger logger) {
         if (jedisPool != null) return;
 
         if (password != null && password.trim().length() > 0) {
