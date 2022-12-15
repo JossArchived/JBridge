@@ -13,7 +13,7 @@
     <name>JBridge</name>
 
     <modules>
-        <module>commons</module>
+        <module>jbridge-commons</module>
         <module>jbridge-nukkit</module>
         <module>jbridge-waterdogpe</module>
     </modules>

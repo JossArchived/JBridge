@@ -1,5 +1,4 @@
 package me.josscoder.jbridge;
 
-public class JBridge {
-
+public class JBridgeCore {
 }
