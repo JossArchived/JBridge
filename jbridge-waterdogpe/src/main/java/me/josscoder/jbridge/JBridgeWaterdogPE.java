@@ -8,6 +8,7 @@ import dev.waterdog.waterdogpe.event.defaults.ProxyQueryEvent;
 import dev.waterdog.waterdogpe.plugin.Plugin;
 import dev.waterdog.waterdogpe.utils.config.Configuration;
 import lombok.Getter;
+import me.josscoder.jbridge.command.ServerListCommand;
 import me.josscoder.jbridge.command.WhereAmICommand;
 import me.josscoder.jbridge.override.GeneralListener;
 import me.josscoder.jbridge.override.handler.JoinHandler;
@@ -53,15 +54,17 @@ public class JBridgeWaterdogPE extends Plugin {
                 -1
         );
 
-        registerCommands();
+        handlerCommands();
         registerHandlers();
         subscribeEvents();
         getProxy().getScheduler().scheduleRepeating(new ServicePongTask(), 20 * 5, true);
     }
 
-    private void registerCommands() {
+    private void handlerCommands() {
         CommandMap map = getProxy().getCommandMap();
+        map.unregisterCommand("wdlist");
         map.registerCommand(new WhereAmICommand());
+        map.registerCommand(new ServerListCommand());
     }
 
     private void registerHandlers() {

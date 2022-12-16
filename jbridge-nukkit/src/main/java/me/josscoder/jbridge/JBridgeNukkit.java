@@ -63,7 +63,6 @@ public class JBridgeNukkit extends PluginBase {
         SimpleCommandMap map = getServer().getCommandMap();
         map.register("hub", new HubCommand());
         map.register("transfer", new TransferCommand());
-        map.register("serverlist", new ServerListCommand());
     }
 
     public void transferPlayer(Player player, String serverName) {

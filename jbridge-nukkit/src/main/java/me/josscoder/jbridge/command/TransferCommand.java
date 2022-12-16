@@ -23,7 +23,7 @@ public class TransferCommand extends Command {
         Player player = (Player) sender;
 
         if (args.length == 0) {
-            player.sendMessage(TextFormat.RED + "Use /serverlist to display the list of servers and their groups");
+            player.sendMessage(TextFormat.RED + "Usage: " + getUsage());
             return true;
         }
 
