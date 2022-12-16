@@ -1,11 +1,11 @@
-package me.josscoder.jbridge.custom;
+package me.josscoder.jbridge.override;
 
 import dev.waterdog.waterdogpe.event.defaults.PreTransferEvent;
 import dev.waterdog.waterdogpe.event.defaults.ProxyPingEvent;
 import dev.waterdog.waterdogpe.event.defaults.ProxyQueryEvent;
 import me.josscoder.jbridge.JBridgeCore;
 
-public class CustomEvents {
+public class GeneralListener {
 
     public static void onPing(ProxyPingEvent event) {
         event.setMaximumPlayerCount(JBridgeCore.getInstance().getServiceHandler().getMaxPlayers());

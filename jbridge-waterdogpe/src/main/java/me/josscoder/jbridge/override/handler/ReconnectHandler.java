@@ -1,4 +1,4 @@
-package me.josscoder.jbridge.custom.handler;
+package me.josscoder.jbridge.override.handler;
 
 import dev.waterdog.waterdogpe.ProxyServer;
 import dev.waterdog.waterdogpe.network.serverinfo.ServerInfo;

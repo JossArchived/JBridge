@@ -7,9 +7,9 @@ import dev.waterdog.waterdogpe.event.defaults.ProxyQueryEvent;
 import dev.waterdog.waterdogpe.plugin.Plugin;
 import dev.waterdog.waterdogpe.utils.config.Configuration;
 import lombok.Getter;
-import me.josscoder.jbridge.custom.CustomEvents;
-import me.josscoder.jbridge.custom.handler.JoinHandler;
-import me.josscoder.jbridge.custom.handler.ReconnectHandler;
+import me.josscoder.jbridge.override.GeneralListener;
+import me.josscoder.jbridge.override.handler.JoinHandler;
+import me.josscoder.jbridge.override.handler.ReconnectHandler;
 import me.josscoder.jbridge.service.ServiceInfo;
 import me.josscoder.jbridge.task.PingTask;
 
@@ -63,8 +63,8 @@ public class JBridgeWaterdogPE extends Plugin {
 
     private void subscribeEvents() {
         EventManager manager = getProxy().getEventManager();
-        manager.subscribe(ProxyPingEvent.class, CustomEvents::onPing);
-        manager.subscribe(ProxyQueryEvent.class, CustomEvents::onQuery);
-        manager.subscribe(PreTransferEvent.class, CustomEvents::onTransfer);
+        manager.subscribe(ProxyPingEvent.class, GeneralListener::onPing);
+        manager.subscribe(ProxyQueryEvent.class, GeneralListener::onQuery);
+        manager.subscribe(PreTransferEvent.class, GeneralListener::onTransfer);
     }
 }
