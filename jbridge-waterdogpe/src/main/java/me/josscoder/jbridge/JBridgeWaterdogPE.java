@@ -67,4 +67,9 @@ public class JBridgeWaterdogPE extends Plugin {
         manager.subscribe(ProxyQueryEvent.class, GeneralListener::onQuery);
         manager.subscribe(PreTransferEvent.class, GeneralListener::onTransfer);
     }
+
+    @Override
+    public void onDisable() {
+        JBridgeCore.getInstance().shutdown();
+    }
 }

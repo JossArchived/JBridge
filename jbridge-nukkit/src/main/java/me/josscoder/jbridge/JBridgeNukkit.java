@@ -58,4 +58,9 @@ public class JBridgeNukkit extends PluginBase {
             }
         }, 20, true);
     }
+
+    @Override
+    public void onDisable() {
+        JBridgeCore.getInstance().shutdown();
+    }
 }

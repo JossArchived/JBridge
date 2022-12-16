@@ -7,13 +7,15 @@ import com.google.gson.GsonBuilder;
 import lombok.Getter;
 import lombok.Setter;
 import me.josscoder.jbridge.logger.ILogger;
-import me.josscoder.jbridge.packet.PacketPool;
+import me.josscoder.jbridge.packet.PacketHandler;
 import me.josscoder.jbridge.service.ServiceHandler;
 import me.josscoder.jbridge.service.ServiceInfo;
+import redis.clients.jedis.BinaryJedisPubSub;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPubSub;
 
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
@@ -26,12 +28,18 @@ public class JBridgeCore {
     private static JBridgeCore instance;
 
     public static final String SERVICE_CACHE_CHANNEL = "jbridge-service-cache-channel",
-            PACKET_CHANNEL = "jbridge-packet-channel";
+            MESSAGE_CHANNEL = "jbridge-message-channel";
+
+    public static final byte[] PACKET_CHANNEL = "jbridge-packet-channel".getBytes(StandardCharsets.UTF_8);
+
+    private JedisPubSub cachePubSub;
+    private BinaryJedisPubSub packetPubSub;
 
     private JedisPool jedisPool;
     private Gson gson;
     private boolean debug;
-    private PacketPool packetPool;
+    private ILogger logger;
+    private PacketHandler packetHandler;
     private ServiceHandler serviceHandler;
 
     private final Cache<String, ServiceInfo> serviceInfoCache = CacheBuilder.newBuilder()
@@ -52,14 +60,15 @@ public class JBridgeCore {
         }
 
         this.debug = debug;
+        this.logger = logger;
         gson = new GsonBuilder().create();
 
-        packetPool = new PacketPool();
+        packetHandler = new PacketHandler();
 
         ForkJoinPool.commonPool().execute(() -> {
             try {
                 try (Jedis jedis = jedisPool.getResource()) {
-                    jedis.subscribe(new JedisPubSub() {
+                    jedis.subscribe(cachePubSub = new JedisPubSub() {
                         @Override
                         public void onMessage(String channel, String message) {
                             ServiceInfo data = gson.fromJson(message, ServiceInfo.class);
@@ -68,14 +77,31 @@ public class JBridgeCore {
 
                         @Override
                         public void onSubscribe(String channel, int subscribedChannels) {
-                            if (debug) logger.info("JBridge cache system Started!");
+                            if (debug) logger.info("JBridge cache pubSub Started!");
                         }
 
                         @Override
                         public void onUnsubscribe(String channel, int subscribedChannels) {
-                            if (debug) logger.info("JBridge cache system Stopped!");
+                            if (debug) logger.info("JBridge cache pubSub Stopped!");
                         }
                     }, SERVICE_CACHE_CHANNEL);
+
+                    jedis.subscribe(packetPubSub = new BinaryJedisPubSub(){
+                        @Override
+                        public void onMessage(byte[] channel, byte[] message) {
+                            packetHandler.handlePacketDecoding(message);
+                        }
+
+                        @Override
+                        public void onSubscribe(byte[] channel, int subscribedChannels) {
+                            if (debug) logger.info("JBridge packet pubSub Started!");
+                        }
+
+                        @Override
+                        public void onUnsubscribe(byte[] channel, int subscribedChannels) {
+                            if (debug) logger.info("JBridge packet pubSub Stopped!");
+                        }
+                    }, PACKET_CHANNEL);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -87,5 +113,9 @@ public class JBridgeCore {
         });
 
         serviceHandler = new ServiceHandler();
+    }
+
+    public void shutdown() {
+
     }
 }
