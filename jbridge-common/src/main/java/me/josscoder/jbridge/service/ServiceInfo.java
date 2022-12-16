@@ -13,6 +13,18 @@ public class ServiceInfo {
 
     private final Set<String> players = new HashSet<>();
 
+    public String getShortId() {
+        return id.substring(0, 5);
+    }
+
+    public String getGroupAndId() {
+        return String.format("%s-%s", group, id);
+    }
+
+    public String getRegionGroupAndId() {
+        return region + "-" + getGroupAndId();
+    }
+
     public void addPlayer(String player) {
         players.add(player);
     }

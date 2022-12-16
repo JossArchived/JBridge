@@ -35,16 +35,15 @@ public class JBridgeNukkit extends PluginBase {
                 new NukkitLogger()
         );
 
-        String group = config.getString("service.group", "hub");
         String branch = config.getString("service.branch", "dev");
 
         serviceInfo = new ServiceInfo(
-                config.getString("service.id", group + "-" + UUID.randomUUID().toString().substring(0, 3)),
+                config.getString("service.id", UUID.randomUUID().toString().substring(0, 8)),
                 (branch.startsWith("dev")
                         ? "127.0.0.1"
                         : config.getString("service.address", getServer().getIp())
                 ) + ":" + getServer().getPort(),
-                group,
+                config.getString("service.group", "hub"),
                 config.getString("service.region", "us"),
                 branch,
                 getServer().getMaxPlayers()

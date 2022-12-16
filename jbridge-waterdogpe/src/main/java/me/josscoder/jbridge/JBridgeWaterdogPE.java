@@ -43,7 +43,7 @@ public class JBridgeWaterdogPE extends Plugin {
         );
 
         serviceInfo = new ServiceInfo(
-                config.getString("service.id", "proxy-" + UUID.randomUUID().toString().substring(0, 3)),
+                config.getString("service.id", UUID.randomUUID().toString().substring(0, 8)),
                 "",
                 config.getString("service.group", "proxy"),
                 config.getString("service.region", "us"),
