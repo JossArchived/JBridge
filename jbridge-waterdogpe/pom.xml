@@ -18,8 +18,6 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.projectlombok</groupId>
@@ -71,7 +69,7 @@
         <dependency>
             <groupId>dev.waterdog.waterdogpe</groupId>
             <artifactId>waterdog</artifactId>
-            <version>1.2.1-SNAPSHOT</version>
+            <version>1.1.10-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

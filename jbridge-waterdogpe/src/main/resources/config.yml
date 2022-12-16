@@ -6,8 +6,6 @@ redis:
   password: "yourpasswordhere"
 
 service:
-  id: "hub-1"
-  address: "0.0.0.0"
-  group: "hub"
+  id: "proxy-1"
   region: "us"
   instance: "release"
