@@ -7,15 +7,11 @@ import cn.nukkit.utils.TextFormat;
 import me.josscoder.jbridge.JBridgeCore;
 import me.josscoder.jbridge.service.ServiceHandler;
 
-public class ServiceListCommand extends Command {
+public class ServerListCommand extends Command {
 
-    public ServiceListCommand() {
-        super("servicelist",
-                "Display the list of active services",
-                "/servicelist",
-                new String[]{"serverlist"}
-        );
-        setPermission("jbrdige.command.servicelist");
+    public ServerListCommand() {
+        super("serverlist", "Display the list of servers");
+        setPermission("jbrdige.command.serverlist");
     }
 
     @Override
@@ -25,7 +21,7 @@ public class ServiceListCommand extends Command {
 
         ServiceHandler serviceHandler = JBridgeCore.getInstance().getServiceHandler();
 
-        player.sendMessage(TextFormat.BLUE + "Service list: ");
+        player.sendMessage(TextFormat.BLUE + "Server list: ");
         serviceHandler.getServiceInfoMapCache().values().forEach(service -> player.sendMessage(
                 (service.containsPlayer(player.getName()) ? TextFormat.GOLD : TextFormat.GRAY)
                 + String.format("- %s " + TextFormat.WHITE + "(%s/%s)",

@@ -2,6 +2,7 @@ package me.josscoder.jbridge.service;
 
 import me.josscoder.jbridge.JBridgeCore;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -29,12 +30,12 @@ public class ServiceHandler {
                 .collect(Collectors.toList());
     }
 
-    public List<ServiceInfo> getGroupServers(String group) {
+    public List<ServiceInfo> getGroupServices(String group) {
         return filterServices(service -> service.getGroup().equalsIgnoreCase(group));
     }
 
-    public boolean groupHasServers(String group) {
-        return getGroupServers(group).size() > 0;
+    public boolean groupHasServices(String group) {
+        return getGroupServices(group).size() > 0;
     }
 
     public List<ServiceInfo> getSortedServices(List<ServiceInfo> serviceList) {
@@ -53,7 +54,7 @@ public class ServiceHandler {
     }
 
     public int getPlayersOnline(String group) {
-        return getGroupServers(group)
+        return getGroupServices(group)
                 .stream()
                 .mapToInt(ServiceInfo::getPlayersOnline)
                 .sum();
@@ -67,7 +68,7 @@ public class ServiceHandler {
     }
 
     public int getMaxPlayers(String group) {
-        return getGroupServers(group)
+        return getGroupServices(group)
                 .stream()
                 .mapToInt(ServiceInfo::getMaxPlayers)
                 .sum();
@@ -80,14 +81,16 @@ public class ServiceHandler {
                 .sum();
     }
 
-    public List<ServiceInfo> getHubServers() {
-        return filterServices(service -> service.getGroup().startsWith("lobby-") ||
-                service.getGroup().startsWith("hub-")
-        );
+    public List<ServiceInfo> getHubServices() {
+        List<ServiceInfo> services = new ArrayList<>();
+        services.addAll(getGroupServices("lobby"));
+        services.addAll(getGroupServices("hub"));
+
+        return services;
     }
 
     public ServiceInfo getBalancedHubService() {
-        return getBalancedService(getHubServers());
+        return getBalancedService(getHubServices());
     }
 
     public String getBalancedHubServiceId() {
