@@ -63,12 +63,12 @@ public class JBridgeCore {
 
                         @Override
                         public void onSubscribe(String channel, int subscribedChannels) {
-                            if (debug) logger.info("JBridge System Started!");
+                            if (debug) logger.info("JBridge cache System Started!");
                         }
 
                         @Override
                         public void onUnsubscribe(String channel, int subscribedChannels) {
-                            if (debug) logger.info("JBridge System Stopped!");
+                            if (debug) logger.info("JBridge cache System Stopped!");
                         }
                     }, SERVICE_CACHE_CHANNEL);
                 }
