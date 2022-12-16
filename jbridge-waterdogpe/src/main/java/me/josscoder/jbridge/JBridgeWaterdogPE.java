@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class JBridgeWaterdogPE extends Plugin {
 
@@ -111,7 +112,9 @@ public class JBridgeWaterdogPE extends Plugin {
                 }
             }
 
-            List<String> currentServersKeySet = currentServers.stream().map(ServerInfo::getServerName).toList();
+            List<String> currentServersKeySet = currentServers.stream()
+                    .map(ServerInfo::getServerName)
+                    .collect(Collectors.toList());
 
             backendServers.entrySet().stream().filter(serverEntry -> !currentServersKeySet.contains(serverEntry.getKey())).forEach(serverEntry -> {
                 ServiceInfo serviceInfo1 = backendServers.get(serverEntry.getKey());
