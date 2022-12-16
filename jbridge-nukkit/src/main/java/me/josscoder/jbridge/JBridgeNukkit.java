@@ -35,24 +35,25 @@ public class JBridgeNukkit extends PluginBase {
                 new NukkitLogger()
         );
 
+        String group = config.getString("service.group", "hub");
+        String branch = config.getString("service.branch", "dev");
+
+        serviceInfo = new ServiceInfo(
+                config.getString("service.id", group + "-" + UUID.randomUUID().toString().substring(0, 3)),
+                (branch.startsWith("dev")
+                        ? "127.0.0.1"
+                        : config.getString("service.address", getServer().getIp())
+                ) + ":" + getServer().getPort(),
+                group,
+                config.getString("service.region", "us"),
+                branch,
+                getServer().getMaxPlayers()
+        );
+
         getServer().getScheduler().scheduleRepeatingTask(this, () -> {
             try (Jedis jedis = jBridgeCore.getJedisPool().getResource()) {
-                String group = config.getString("service.group", "hub");
-                String branch = config.getString("service.branch", "dev");
-
-                serviceInfo = new ServiceInfo(
-                        config.getString("service.id", group + "-" + UUID.randomUUID().toString().substring(0, 3)),
-                        (branch.startsWith("dev")
-                                ? "127.0.0.1"
-                                : config.getString("service.address", getServer().getIp())
-                        ) + ":" + getServer().getPort(),
-                        group,
-                        config.getString("service.region", "us"),
-                        branch,
-                        getServer().getMaxPlayers()
-                );
+                serviceInfo.getPlayers().clear();
                 getServer().getOnlinePlayers().values().forEach(player -> serviceInfo.addPlayer(player.getName()));
-
                 jedis.publish(JBridgeCore.SERVICE_CACHE_CHANNEL, jBridgeCore.getGson().toJson(serviceInfo));
             }
         }, 20, true);
