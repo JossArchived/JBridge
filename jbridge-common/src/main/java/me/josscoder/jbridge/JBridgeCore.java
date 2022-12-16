@@ -32,13 +32,15 @@ public class JBridgeCore {
 
     public static final byte[] PACKET_CHANNEL = "jbridge-packet-channel".getBytes(StandardCharsets.UTF_8);
 
-    private JedisPubSub cachePubSub;
-    private BinaryJedisPubSub packetPubSub;
-
-    private JedisPool jedisPool;
-    private Gson gson;
     private boolean debug;
     private ILogger logger;
+
+    private JedisPool jedisPool = null;
+    private Gson gson;
+
+    private JedisPubSub serviceCachePubSub = null;
+    private BinaryJedisPubSub packetPubSub = null;
+
     private PacketHandler packetHandler;
     private ServiceHandler serviceHandler;
 
@@ -68,7 +70,7 @@ public class JBridgeCore {
         ForkJoinPool.commonPool().execute(() -> {
             try {
                 try (Jedis jedis = jedisPool.getResource()) {
-                    jedis.subscribe(cachePubSub = new JedisPubSub() {
+                    jedis.subscribe(serviceCachePubSub = new JedisPubSub() {
                         @Override
                         public void onMessage(String channel, String message) {
                             ServiceInfo data = gson.fromJson(message, ServiceInfo.class);
@@ -116,6 +118,8 @@ public class JBridgeCore {
     }
 
     public void shutdown() {
-
+        if (serviceCachePubSub != null) serviceCachePubSub.unsubscribe();
+        if (packetPubSub != null) packetPubSub.unsubscribe();
+        if (jedisPool != null) jedisPool.close();
     }
 }
