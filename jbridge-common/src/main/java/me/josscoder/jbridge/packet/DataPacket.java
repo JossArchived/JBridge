@@ -11,6 +11,4 @@ public abstract class DataPacket {
 
     public abstract void encode(ByteArrayDataOutput output);
     public abstract void decode(ByteArrayDataInput input);
-
-    public abstract void handle(DataPacket packet);
 }

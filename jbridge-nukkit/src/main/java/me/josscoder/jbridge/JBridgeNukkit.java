@@ -54,7 +54,7 @@ public class JBridgeNukkit extends PluginBase {
             serviceInfo.getPlayers().clear();
             getServer().getOnlinePlayers().values().forEach(player -> serviceInfo.addPlayer(player.getName()));
 
-            jBridgeCore.getPacketHandler().publishPacket(new ServiceDataUpdatePacket(){{
+            jBridgeCore.getPacketPool().publishPacket(new ServiceDataUpdatePacket(){{
                     data = jBridgeCore.getGson().toJson(serviceInfo);
             }});
         }, 20, true);
