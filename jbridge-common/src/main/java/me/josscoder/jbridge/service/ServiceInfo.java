@@ -21,15 +21,7 @@ public class ServiceInfo {
         return players.contains(player);
     }
 
-    public int countPlayers() {
-        return countPlaying();
-    }
-
-    public int getPlaying() {
-        return countPlaying();
-    }
-
-    public int countPlaying() {
+    public int getPlayersOnline() {
         return players.size();
     }
 }

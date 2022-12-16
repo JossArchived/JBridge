@@ -14,7 +14,6 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPubSub;
 
-import java.util.Map;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
@@ -32,6 +31,8 @@ public class JBridgeCore {
     private JedisPool jedisPool;
     private Gson gson;
     private boolean debug;
+    private PacketPool packetPool;
+    private ServiceHandler serviceHandler;
 
     private final Cache<String, ServiceInfo> serviceInfoCache = CacheBuilder.newBuilder()
             .expireAfterWrite(10, TimeUnit.SECONDS)
@@ -51,10 +52,9 @@ public class JBridgeCore {
         }
 
         this.debug = debug;
-
         gson = new GsonBuilder().create();
 
-        new PacketPool();
+        packetPool = new PacketPool();
 
         ForkJoinPool.commonPool().execute(() -> {
             try {
@@ -68,12 +68,12 @@ public class JBridgeCore {
 
                         @Override
                         public void onSubscribe(String channel, int subscribedChannels) {
-                            if (debug) logger.info("JBridge cache System Started!");
+                            if (debug) logger.info("JBridge cache system Started!");
                         }
 
                         @Override
                         public void onUnsubscribe(String channel, int subscribedChannels) {
-                            if (debug) logger.info("JBridge cache System Stopped!");
+                            if (debug) logger.info("JBridge cache system Stopped!");
                         }
                     }, SERVICE_CACHE_CHANNEL);
                 }
@@ -86,10 +86,6 @@ public class JBridgeCore {
             }
         });
 
-        new ServiceHandler();
-    }
-
-    public Map<String, ServiceInfo> getServiceInfoMapCache() {
-        return serviceInfoCache.asMap();
+        serviceHandler = new ServiceHandler();
     }
 }
