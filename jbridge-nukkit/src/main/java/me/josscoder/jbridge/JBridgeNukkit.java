@@ -26,7 +26,9 @@ public class JBridgeNukkit extends PluginBase {
         saveDefaultConfig();
 
         Config config = getConfig();
-        JBridgeCore.boot(config.getString("redis.hostname"),
+
+        JBridgeCore jBridgeCore = new JBridgeCore();
+        jBridgeCore.boot(config.getString("redis.hostname"),
                 config.getInt("redis.port"),
                 config.getString("redis.password"),
                 config.getBoolean("debug"),
@@ -34,7 +36,7 @@ public class JBridgeNukkit extends PluginBase {
         );
 
         getServer().getScheduler().scheduleRepeatingTask(this, () -> {
-            try (Jedis jedis = JBridgeCore.getJedisPool().getResource()) {
+            try (Jedis jedis = jBridgeCore.getJedisPool().getResource()) {
                 String group = config.getString("service.group", "hub");
                 String branch = config.getString("service.branch", "dev");
 
@@ -51,7 +53,7 @@ public class JBridgeNukkit extends PluginBase {
                 );
                 getServer().getOnlinePlayers().values().forEach(player -> serviceInfo.addPlayer(player.getName()));
 
-                jedis.publish(JBridgeCore.SERVICE_CACHE_CHANNEL, JBridgeCore.getGson().toJson(serviceInfo));
+                jedis.publish(JBridgeCore.SERVICE_CACHE_CHANNEL, jBridgeCore.getGson().toJson(serviceInfo));
             }
         }, 20, true);
     }

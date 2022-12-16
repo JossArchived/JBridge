@@ -8,6 +8,7 @@ import dev.waterdog.waterdogpe.network.serverinfo.ServerInfo;
 import dev.waterdog.waterdogpe.plugin.Plugin;
 import dev.waterdog.waterdogpe.utils.config.Configuration;
 import lombok.Getter;
+import me.josscoder.jbridge.service.ServiceHandler;
 import me.josscoder.jbridge.service.ServiceInfo;
 
 import java.net.InetSocketAddress;
@@ -32,7 +33,9 @@ public class JBridgeWaterdogPE extends Plugin {
         loadConfig();
 
         Configuration config = getConfig();
-        JBridgeCore.boot(config.getString("redis.hostname"),
+
+        JBridgeCore jBridgeCore = new JBridgeCore();
+        jBridgeCore.boot(config.getString("redis.hostname"),
                 config.getInt("redis.port"),
                 config.getString("redis.password"),
                 config.getBoolean("debug"),
@@ -59,11 +62,11 @@ public class JBridgeWaterdogPE extends Plugin {
     }
 
     private static void onPing(ProxyPingEvent event) {
-        event.setMaximumPlayerCount(JBridgeCore.getMaxPlayers());
+        event.setMaximumPlayerCount(ServiceHandler.getInstance().getMaxPlayers());
     }
 
     private static void onQuery(ProxyQueryEvent event) {
-        event.setMaximumPlayerCount(JBridgeCore.getMaxPlayers());
+        event.setMaximumPlayerCount(ServiceHandler.getInstance().getMaxPlayers());
     }
 
     public void onTransfer(PreTransferEvent event) {
@@ -72,7 +75,7 @@ public class JBridgeWaterdogPE extends Plugin {
 
     private void handlePing() {
         getProxy().getScheduler().scheduleRepeating(() -> {
-            Map<String, ServiceInfo> backendServers = JBridgeCore.getServiceInfoCache();
+            Map<String, ServiceInfo> backendServers = JBridgeCore.getInstance().getServiceInfoMapCache();
 
             getProxy().getServers().forEach(serverInfo -> {
                 if (backendServers.containsKey(serverInfo.getServerName())) {

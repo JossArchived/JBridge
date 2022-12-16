@@ -7,6 +7,8 @@ import com.google.gson.GsonBuilder;
 import lombok.Getter;
 import lombok.Setter;
 import me.josscoder.jbridge.logger.ILogger;
+import me.josscoder.jbridge.packet.PacketPool;
+import me.josscoder.jbridge.service.ServiceHandler;
 import me.josscoder.jbridge.service.ServiceInfo;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -17,47 +19,50 @@ import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
+@Getter
+@Setter
 public class JBridgeCore {
+
+    @Getter
+    private static JBridgeCore instance;
 
     public static final String SERVICE_CACHE_CHANNEL = "jbridge-service-cache-channel",
             PACKET_CHANNEL = "jbridge-packet-channel";
 
-    @Getter
-    @Setter
-    private static JedisPool jedisPool;
+    private JedisPool jedisPool;
+    private Gson gson;
+    private boolean debug;
 
-    @Getter
-    @Setter
-    private static Gson gson;
-
-    @Getter
-    @Setter
-    private static boolean debug;
-
-    private static final Cache<String, ServiceInfo> serviceInfoCache = CacheBuilder.newBuilder()
+    private final Cache<String, ServiceInfo> serviceInfoCache = CacheBuilder.newBuilder()
             .expireAfterWrite(10, TimeUnit.SECONDS)
             .build();
 
-    public static void boot(String hostname, int port, String password, boolean debug, final ILogger logger) {
-        if (getJedisPool() != null) return;
+    public JBridgeCore() {
+        instance = this;
+    }
+
+    public void boot(String hostname, int port, String password, boolean debug, final ILogger logger) {
+        if (jedisPool != null) return;
 
         if (password != null && password.trim().length() > 0) {
-            setJedisPool(new JedisPool(new GenericObjectPoolConfig<>(), hostname, port, 5000, password));
+            jedisPool = new JedisPool(new GenericObjectPoolConfig<>(), hostname, port, 5000, password);
         } else {
-            setJedisPool(new JedisPool(new GenericObjectPoolConfig<>(), hostname, port, 5000));
+            jedisPool = new JedisPool(new GenericObjectPoolConfig<>(), hostname, port, 5000);
         }
 
-        setDebug(debug);
+        this.debug = debug;
 
-        setGson(new GsonBuilder().create());
+        gson = new GsonBuilder().create();
+
+        new PacketPool();
 
         ForkJoinPool.commonPool().execute(() -> {
             try {
-                try (Jedis jedis = getJedisPool().getResource()) {
+                try (Jedis jedis = jedisPool.getResource()) {
                     jedis.subscribe(new JedisPubSub() {
                         @Override
                         public void onMessage(String channel, String message) {
-                            ServiceInfo data = getGson().fromJson(message, ServiceInfo.class);
+                            ServiceInfo data = gson.fromJson(message, ServiceInfo.class);
                             serviceInfoCache.put(data.getId(), data);
                         }
 
@@ -80,16 +85,11 @@ public class JBridgeCore {
                 } catch (InterruptedException ignored) {}
             }
         });
+
+        new ServiceHandler();
     }
 
-    public static Map<String, ServiceInfo> getServiceInfoCache() {
+    public Map<String, ServiceInfo> getServiceInfoMapCache() {
         return serviceInfoCache.asMap();
-    }
-
-    public static int getMaxPlayers() {
-        return getServiceInfoCache().values()
-                .stream()
-                .mapToInt(ServiceInfo::getMaxPlayers)
-                .sum();
     }
 }
