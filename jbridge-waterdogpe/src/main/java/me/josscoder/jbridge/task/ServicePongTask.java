@@ -61,11 +61,9 @@ public class ServicePongTask implements Runnable {
             InetSocketAddress socketAddress = new InetSocketAddress(newAddress[0], Integer.parseInt(newAddress[1]));
 
             ServerInfo serverInfo = new BedrockServerInfo(serverEntry.getKey(), socketAddress, socketAddress);
-            if (proxy.registerServerInfo(serverInfo)) {
-                logger.info(String.format("Added %s (%s:%s)",
-                        serverEntry.getKey(), newAddress[0], newAddress[1])
-                );
-            }
+            if (!proxy.registerServerInfo(serverInfo)) return;
+
+            logger.info(String.format("Added %s (%s:%s)", serverEntry.getKey(), newAddress[0], newAddress[1]));
         });
     }
 }

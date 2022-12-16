@@ -29,10 +29,12 @@ public class ServiceHandler {
                 .collect(Collectors.toList());
     }
 
-    public List<ServiceInfo> getHubServers() {
-        return filterServices(service -> service.getId().startsWith("lobby-") ||
-                service.getId().startsWith("hub-")
-        );
+    public List<ServiceInfo> getGroupServers(String group) {
+        return filterServices(service -> service.getGroup().equalsIgnoreCase(group));
+    }
+
+    public boolean groupHasServers(String group) {
+        return getGroupServers(group).size() > 0;
     }
 
     public List<ServiceInfo> getSortedServices(List<ServiceInfo> serviceList) {
@@ -50,17 +52,8 @@ public class ServiceHandler {
         return serviceInfo == null ? "" : serviceInfo.getId();
     }
 
-    public ServiceInfo getBalancedHubService() {
-        return getBalancedService(getHubServers());
-    }
-
-    public String getBalancedHubServiceId() {
-        ServiceInfo serviceInfo = getBalancedHubService();
-        return serviceInfo == null ? "" : serviceInfo.getId();
-    }
-
     public int getPlayersOnline(String group) {
-        return filterServices(service -> service.getGroup().equalsIgnoreCase(group))
+        return getGroupServers(group)
                 .stream()
                 .mapToInt(ServiceInfo::getPlayersOnline)
                 .sum();
@@ -74,7 +67,7 @@ public class ServiceHandler {
     }
 
     public int getMaxPlayers(String group) {
-        return filterServices(service -> service.getGroup().equalsIgnoreCase(group))
+        return getGroupServers(group)
                 .stream()
                 .mapToInt(ServiceInfo::getMaxPlayers)
                 .sum();
@@ -85,5 +78,20 @@ public class ServiceHandler {
                 .stream()
                 .mapToInt(ServiceInfo::getMaxPlayers)
                 .sum();
+    }
+
+    public List<ServiceInfo> getHubServers() {
+        return filterServices(service -> service.getGroup().startsWith("lobby-") ||
+                service.getGroup().startsWith("hub-")
+        );
+    }
+
+    public ServiceInfo getBalancedHubService() {
+        return getBalancedService(getHubServers());
+    }
+
+    public String getBalancedHubServiceId() {
+        ServiceInfo serviceInfo = getBalancedHubService();
+        return serviceInfo == null ? "" : serviceInfo.getId();
     }
 }

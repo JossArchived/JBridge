@@ -28,7 +28,11 @@ public class ServiceListCommand extends Command {
         player.sendMessage(TextFormat.BLUE + "Service list: ");
         serviceHandler.getServiceInfoMapCache().values().forEach(service -> player.sendMessage(
                 (service.containsPlayer(player.getName()) ? TextFormat.GOLD : TextFormat.GRAY)
-                + "- " + service.getRegionGroupAndShortId()
+                + String.format("- %s " + TextFormat.WHITE + "(%s/%s)",
+                        service.getRegionGroupAndShortId(),
+                        service.getPlayersOnline(),
+                        service.getMaxPlayers()
+                )
         ));
         return true;
     }

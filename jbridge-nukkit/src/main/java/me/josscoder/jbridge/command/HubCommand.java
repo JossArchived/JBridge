@@ -24,7 +24,7 @@ public class HubCommand extends Command {
 
         String balancedHubService = JBridgeCore.getInstance().getServiceHandler().getBalancedHubServiceId();
         if (balancedHubService.isEmpty()) {
-            player.sendMessage(TextFormat.RED + "There are no rotating hub services!");
+            player.sendMessage(TextFormat.RED + "There are no rotating hub servers!");
             return false;
         }
 
