@@ -28,8 +28,11 @@ public class ServerListCommand extends Command {
                 (sender.isPlayer() && service.containsPlayer(sender.getName())
                         ? Color.GOLD
                         : Color.GRAY
-                ) + String.format("- %s " + Color.WHITE + "(%s/%s)",
-                        service.getGroupAndShortId(),
+                ) + String.format("- %s §c%s §a%s-%s §f(%s/%s)",
+                        service.getShortId(),
+                        service.getGroup().toUpperCase(),
+                        service.getRegion().toUpperCase(),
+                        service.getBranch().toUpperCase(),
                         service.getPlayersOnline(),
                         service.getMaxPlayers()
                 )

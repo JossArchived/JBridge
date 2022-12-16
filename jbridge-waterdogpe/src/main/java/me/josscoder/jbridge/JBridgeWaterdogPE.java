@@ -5,14 +5,14 @@ import dev.waterdog.waterdogpe.event.EventManager;
 import dev.waterdog.waterdogpe.event.defaults.PreTransferEvent;
 import dev.waterdog.waterdogpe.event.defaults.ProxyPingEvent;
 import dev.waterdog.waterdogpe.event.defaults.ProxyQueryEvent;
+import dev.waterdog.waterdogpe.logger.Color;
 import dev.waterdog.waterdogpe.plugin.Plugin;
 import dev.waterdog.waterdogpe.utils.config.Configuration;
 import lombok.Getter;
 import me.josscoder.jbridge.command.ServerListCommand;
 import me.josscoder.jbridge.command.WhereAmICommand;
-import me.josscoder.jbridge.override.GeneralListener;
-import me.josscoder.jbridge.override.handler.JoinHandler;
-import me.josscoder.jbridge.override.handler.ReconnectHandler;
+import me.josscoder.jbridge.proxyhandler.JoinHandler;
+import me.josscoder.jbridge.proxyhandler.ReconnectHandler;
 import me.josscoder.jbridge.service.ServiceInfo;
 import me.josscoder.jbridge.task.ServicePongTask;
 
@@ -74,9 +74,21 @@ public class JBridgeWaterdogPE extends Plugin {
 
     private void subscribeEvents() {
         EventManager manager = getProxy().getEventManager();
-        manager.subscribe(ProxyPingEvent.class, GeneralListener::onPing);
-        manager.subscribe(ProxyQueryEvent.class, GeneralListener::onQuery);
-        manager.subscribe(PreTransferEvent.class, GeneralListener::onTransfer);
+        manager.subscribe(ProxyPingEvent.class, this::onPing);
+        manager.subscribe(ProxyQueryEvent.class, this::onQuery);
+        manager.subscribe(PreTransferEvent.class, this::onTransfer);
+    }
+
+    private void onPing(ProxyPingEvent event) {
+        event.setMaximumPlayerCount(JBridgeCore.getInstance().getServiceHandler().getMaxPlayers());
+    }
+
+    private void onQuery(ProxyQueryEvent event) {
+        event.setMaximumPlayerCount(JBridgeCore.getInstance().getServiceHandler().getMaxPlayers());
+    }
+
+    private void onTransfer(PreTransferEvent event) {
+        event.getPlayer().sendMessage(Color.GRAY + "Connecting you to " + event.getTargetServer().getServerName());
     }
 
     @Override

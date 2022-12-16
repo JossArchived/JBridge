@@ -1,4 +1,4 @@
-package me.josscoder.jbridge.override.handler;
+package me.josscoder.jbridge.proxyhandler;
 
 import dev.waterdog.waterdogpe.ProxyServer;
 import dev.waterdog.waterdogpe.logger.Color;
