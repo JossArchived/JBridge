@@ -25,8 +25,10 @@ public class ServerListCommand extends Command {
 
         sender.sendMessage(Color.BLUE + "Server list: ");
         serviceHandler.getServiceInfoMapCache().values().forEach(service -> sender.sendMessage(
-                (sender.isPlayer() && service.containsPlayer(sender.getName()) ? Color.GOLD : Color.GRAY)
-                        + String.format("- %s " + Color.WHITE + "(%s/%s)",
+                (sender.isPlayer() && service.containsPlayer(sender.getName())
+                        ? Color.GOLD
+                        : Color.GRAY
+                ) + String.format("- %s " + Color.WHITE + "(%s/%s)",
                         service.getRegionGroupAndShortId(),
                         service.getPlayersOnline(),
                         service.getMaxPlayers()

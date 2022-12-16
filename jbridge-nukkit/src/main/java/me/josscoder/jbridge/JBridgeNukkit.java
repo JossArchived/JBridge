@@ -7,7 +7,6 @@ import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.Config;
 import lombok.Getter;
 import me.josscoder.jbridge.command.HubCommand;
-import me.josscoder.jbridge.command.ServerListCommand;
 import me.josscoder.jbridge.command.TransferCommand;
 import me.josscoder.jbridge.service.ServiceInfo;
 import me.josscoder.jbridge.task.ServicePingTask;
