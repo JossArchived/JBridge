@@ -7,7 +7,7 @@ import com.google.gson.GsonBuilder;
 import lombok.Getter;
 import lombok.Setter;
 import me.josscoder.jbridge.logger.ILogger;
-import me.josscoder.jbridge.packet.PacketPool;
+import me.josscoder.jbridge.packet.PacketManager;
 import me.josscoder.jbridge.service.ServiceHandler;
 import me.josscoder.jbridge.service.ServiceInfo;
 import redis.clients.jedis.BinaryJedisPubSub;
@@ -36,7 +36,7 @@ public class JBridgeCore {
 
     private BinaryJedisPubSub packetPubSub = null;
 
-    private PacketPool packetPool;
+    private PacketManager packetManager;
     private ServiceHandler serviceHandler;
 
     private final Cache<String, ServiceInfo> serviceInfoCache = CacheBuilder.newBuilder()
@@ -60,7 +60,7 @@ public class JBridgeCore {
         this.logger = logger;
         gson = new GsonBuilder().create();
 
-        packetPool = new PacketPool();
+        packetManager = new PacketManager();
 
         ForkJoinPool.commonPool().execute(() -> {
             try {
@@ -68,7 +68,7 @@ public class JBridgeCore {
                     jedis.subscribe(packetPubSub = new BinaryJedisPubSub(){
                         @Override
                         public void onMessage(byte[] channel, byte[] message) {
-                            packetPool.handlePacketDecoding(message);
+                            packetManager.handlePacketDecoding(message);
                         }
 
                         @Override

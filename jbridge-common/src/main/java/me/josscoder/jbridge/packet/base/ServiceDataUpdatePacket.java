@@ -1,7 +1,8 @@
-package me.josscoder.jbridge.packet;
+package me.josscoder.jbridge.packet.base;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
+import me.josscoder.jbridge.packet.DataPacket;
 
 public class ServiceDataUpdatePacket extends DataPacket {
 

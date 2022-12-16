@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class PingTask implements Runnable {
+public class ServicePingTask implements Runnable {
     @Override
     public void run() {
         Map<String, ServiceInfo> backendServers = JBridgeCore.getInstance()
@@ -38,7 +38,7 @@ public class PingTask implements Runnable {
 
                     proxy.removeServerInfo(serverInfo.getServerName());
                     if (proxy.registerServerInfo(serverInfo)) {
-                        logger.warn("Server IP for \"" + serverInfo.getServerName() + "\" updated!");
+                        logger.warn(String.format("Server IP for \"%s\" updated!", serverInfo.getServerName()));
                     }
                 }
             } else {
@@ -46,7 +46,7 @@ public class PingTask implements Runnable {
                         proxiedPlayer.disconnect("Server timed out, broken connection?")
                 );
                 proxy.removeServerInfo(serverInfo.getServerName());
-                logger.info("Removed " + serverInfo.getServerName() + " due to timeout...");
+                logger.info(String.format("Removed %s due to timeout...", serverInfo.getServerName()));
             }
         });
 
@@ -61,7 +61,11 @@ public class PingTask implements Runnable {
             InetSocketAddress socketAddress = new InetSocketAddress(newAddress[0], Integer.parseInt(newAddress[1]));
 
             ServerInfo serverInfo = new BedrockServerInfo(serverEntry.getKey(), socketAddress, socketAddress);
-            if (proxy.registerServerInfo(serverInfo)) logger.info("Added " + serverEntry.getKey() + " (" + newAddress[0] + ":" + newAddress[1] + ")");
+            if (proxy.registerServerInfo(serverInfo)) {
+                logger.info(String.format("Added %s (%s:%s)",
+                        serverEntry.getKey(), newAddress[0], newAddress[1])
+                );
+            }
         });
     }
 }
