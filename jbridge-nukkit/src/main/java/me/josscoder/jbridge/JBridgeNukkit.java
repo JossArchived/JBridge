@@ -6,6 +6,8 @@ import lombok.Getter;
 import me.josscoder.jbridge.service.ServiceInfo;
 import redis.clients.jedis.Jedis;
 
+import java.util.UUID;
+
 public class JBridgeNukkit extends PluginBase {
 
     @Getter
@@ -33,12 +35,18 @@ public class JBridgeNukkit extends PluginBase {
 
         getServer().getScheduler().scheduleRepeatingTask(this, () -> {
             try (Jedis jedis = JBridgeCore.getJedisPool().getResource()) {
+                String group = config.getString("service.group", "hub");
+                String branch = config.getString("service.branch", "dev");
+
                 serviceInfo = new ServiceInfo(
-                        config.getString("service.id"),
-                        config.getString("service.address", getServer().getIp()) + ":" + getServer().getPort(),
-                        config.getString("service.group", "hub"),
+                        config.getString("service.id", group + "-" + UUID.randomUUID().toString().substring(0, 3)),
+                        (branch.startsWith("dev")
+                                ? "127.0.0.1"
+                                : config.getString("service.address", getServer().getIp())
+                        ) + ":" + getServer().getPort(),
+                        group,
                         config.getString("service.region", "us"),
-                        config.getString("service.branch", "dev"),
+                        branch,
                         getServer().getMaxPlayers()
                 );
                 getServer().getOnlinePlayers().values().forEach(player -> serviceInfo.addPlayer(player.getName()));

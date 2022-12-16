@@ -8,4 +8,4 @@ redis:
 service:
   id: "proxy-1"
   region: "us"
-  instance: "release"
+  branch: "dev"
