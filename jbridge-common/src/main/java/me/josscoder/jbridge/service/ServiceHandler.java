@@ -48,11 +48,6 @@ public class ServiceHandler {
         return serviceList.size() > 0 ? getSortedServices(serviceList).get(0) : null;
     }
 
-    public String getBalancedServiceId(List<ServiceInfo> serviceList) {
-        ServiceInfo serviceInfo = getBalancedService(serviceList);
-        return serviceInfo == null ? "" : serviceInfo.getId();
-    }
-
     public int getPlayersOnline(String group) {
         return getGroupServices(group)
                 .stream()
@@ -93,8 +88,8 @@ public class ServiceHandler {
         return getBalancedService(getHubServices());
     }
 
-    public String getBalancedHubServiceId() {
+    public String getBalancedHubServiceShortId() {
         ServiceInfo serviceInfo = getBalancedHubService();
-        return serviceInfo == null ? "" : serviceInfo.getId();
+        return serviceInfo == null ? "" : serviceInfo.getShortId();
     }
 }

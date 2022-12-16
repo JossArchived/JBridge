@@ -22,7 +22,7 @@ public class HubCommand extends Command {
         if (!sender.isPlayer()) return false;
         Player player = (Player) sender;
 
-        String balancedHubService = JBridgeCore.getInstance().getServiceHandler().getBalancedHubServiceId();
+        String balancedHubService = JBridgeCore.getInstance().getServiceHandler().getBalancedHubServiceShortId();
         if (balancedHubService.isEmpty()) {
             player.sendMessage(TextFormat.RED + "There are no rotating hub servers!");
             return false;

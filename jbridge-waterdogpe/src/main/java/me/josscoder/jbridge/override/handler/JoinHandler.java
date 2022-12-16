@@ -9,7 +9,7 @@ import me.josscoder.jbridge.JBridgeCore;
 public class JoinHandler implements IJoinHandler {
     @Override
     public ServerInfo determineServer(ProxiedPlayer player) {
-        String balancedHubService = JBridgeCore.getInstance().getServiceHandler().getBalancedHubServiceId();
+        String balancedHubService = JBridgeCore.getInstance().getServiceHandler().getBalancedHubServiceShortId();
         return ProxyServer.getInstance().getServerInfo(balancedHubService);
     }
 }

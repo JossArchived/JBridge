@@ -18,7 +18,7 @@ public class ReconnectHandler implements IReconnectHandler {
                 Color.GREEN + "We will connect you to a hub shortly..."
         );
 
-        String balancedHubService = JBridgeCore.getInstance().getServiceHandler().getBalancedHubServiceId();
+        String balancedHubService = JBridgeCore.getInstance().getServiceHandler().getBalancedHubServiceShortId();
         return ProxyServer.getInstance().getServerInfo(balancedHubService);
     }
 }

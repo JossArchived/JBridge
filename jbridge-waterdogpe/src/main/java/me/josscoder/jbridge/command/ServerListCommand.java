@@ -29,7 +29,7 @@ public class ServerListCommand extends Command {
                         ? Color.GOLD
                         : Color.GRAY
                 ) + String.format("- %s " + Color.WHITE + "(%s/%s)",
-                        service.getRegionGroupAndShortId(),
+                        service.getGroupAndShortId(),
                         service.getPlayersOnline(),
                         service.getMaxPlayers()
                 )
