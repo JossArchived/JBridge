@@ -26,10 +26,8 @@ public class WhereAmICommand extends Command {
         String proxyId = JBridgeWaterdogPE.getInstance().getServiceInfo().getGroupAndId();
 
         if (!sender.isPlayer()) {
-
             sender.sendMessage(Color.BLUE + "You are on proxy " + proxyId);
-
-            return false;
+            return true;
         }
 
         String serviceId = "?";
@@ -37,17 +35,12 @@ public class WhereAmICommand extends Command {
         ProxiedPlayer player = (ProxiedPlayer) sender;
 
         ServerInfo serverInfo = player.getServerInfo();
-        if (serverInfo != null) {
-            serviceId = serverInfo.getServerName();
-        }
+        if (serverInfo != null) serviceId = serverInfo.getServerName();
 
         ServiceInfo serviceInfo = JBridgeCore.getInstance().getServiceHandler().getService(serviceId);
-        if (serverInfo != null) {
-            serviceId = serviceInfo.getGroupAndId();
-        }
+        if (serverInfo != null) serviceId = serviceInfo.getGroupAndId();
 
         sender.sendMessage(Color.BLUE + String.format("You are on server %s on proxy %s", serviceId, proxyId));
-
         return true;
     }
 }

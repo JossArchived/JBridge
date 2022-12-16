@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class ServicePingTask implements Runnable {
+public class ServicePongTask implements Runnable {
     @Override
     public void run() {
         Map<String, ServiceInfo> backendServers = JBridgeCore.getInstance()

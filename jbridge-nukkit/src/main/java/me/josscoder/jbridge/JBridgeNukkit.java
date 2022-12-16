@@ -1,10 +1,16 @@
 package me.josscoder.jbridge;
 
+import cn.nukkit.Player;
+import cn.nukkit.command.SimpleCommandMap;
+import cn.nukkit.network.protocol.TransferPacket;
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.Config;
 import lombok.Getter;
-import me.josscoder.jbridge.packet.base.ServiceDataUpdatePacket;
+import me.josscoder.jbridge.command.HubCommand;
+import me.josscoder.jbridge.command.ServiceListCommand;
+import me.josscoder.jbridge.command.TransferCommand;
 import me.josscoder.jbridge.service.ServiceInfo;
+import me.josscoder.jbridge.task.ServicePingTask;
 
 import java.util.UUID;
 
@@ -49,14 +55,23 @@ public class JBridgeNukkit extends PluginBase {
                 getServer().getMaxPlayers()
         );
 
-        getServer().getScheduler().scheduleRepeatingTask(this, () -> {
-            serviceInfo.getPlayers().clear();
-            getServer().getOnlinePlayers().values().forEach(player -> serviceInfo.addPlayer(player.getName()));
+        registerCommands();
+        getServer().getScheduler().scheduleRepeatingTask(new ServicePingTask(), 20, true);
+    }
 
-            jBridgeCore.getPacketManager().publishPacket(new ServiceDataUpdatePacket(){{
-                    data = jBridgeCore.getGson().toJson(serviceInfo);
-            }});
-        }, 20, true);
+    private void registerCommands() {
+        SimpleCommandMap map = getServer().getCommandMap();
+        map.register("hub", new HubCommand());
+        map.register("transfer", new TransferCommand());
+        map.register("servicelist", new ServiceListCommand());
+    }
+
+    public void transferPlayer(Player player, String serverName) {
+        TransferPacket packet = new TransferPacket();
+        packet.address = serverName;
+        packet.port = 0;
+
+        player.dataPacket(packet);
     }
 
     @Override

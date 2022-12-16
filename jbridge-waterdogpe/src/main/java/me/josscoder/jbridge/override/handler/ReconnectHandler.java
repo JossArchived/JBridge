@@ -1,6 +1,7 @@
 package me.josscoder.jbridge.override.handler;
 
 import dev.waterdog.waterdogpe.ProxyServer;
+import dev.waterdog.waterdogpe.logger.Color;
 import dev.waterdog.waterdogpe.network.serverinfo.ServerInfo;
 import dev.waterdog.waterdogpe.player.ProxiedPlayer;
 import dev.waterdog.waterdogpe.utils.types.IReconnectHandler;
@@ -14,7 +15,7 @@ public class ReconnectHandler implements IReconnectHandler {
 
         player.sendMessage("§8Unexpected? Report this §7(" + proxyId + "-" + oldServer.getServerName() + "): §c" + kickMessage +
                 "\n" +
-                "§aWe will connect you to a hub shortly..."
+                Color.GREEN + "We will connect you to a hub shortly..."
         );
 
         String balancedHubService = JBridgeCore.getInstance().getServiceHandler().getBalancedHubServiceId();

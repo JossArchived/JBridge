@@ -13,7 +13,7 @@ import me.josscoder.jbridge.override.GeneralListener;
 import me.josscoder.jbridge.override.handler.JoinHandler;
 import me.josscoder.jbridge.override.handler.ReconnectHandler;
 import me.josscoder.jbridge.service.ServiceInfo;
-import me.josscoder.jbridge.task.ServicePingTask;
+import me.josscoder.jbridge.task.ServicePongTask;
 
 import java.util.UUID;
 
@@ -53,13 +53,13 @@ public class JBridgeWaterdogPE extends Plugin {
                 -1
         );
 
-        handleCommands();
+        registerCommands();
         registerHandlers();
         subscribeEvents();
-        getProxy().getScheduler().scheduleRepeating(new ServicePingTask(), 20 * 5, true);
+        getProxy().getScheduler().scheduleRepeating(new ServicePongTask(), 20 * 5, true);
     }
 
-    private void handleCommands() {
+    private void registerCommands() {
         CommandMap map = getProxy().getCommandMap();
         map.registerCommand(new WhereAmICommand());
     }
