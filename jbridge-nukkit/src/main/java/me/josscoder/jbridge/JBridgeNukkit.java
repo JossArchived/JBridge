@@ -3,8 +3,8 @@ package me.josscoder.jbridge;
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.Config;
 import lombok.Getter;
+import me.josscoder.jbridge.packet.ServiceDataUpdatePacket;
 import me.josscoder.jbridge.service.ServiceInfo;
-import redis.clients.jedis.Jedis;
 
 import java.util.UUID;
 
@@ -51,11 +51,12 @@ public class JBridgeNukkit extends PluginBase {
         );
 
         getServer().getScheduler().scheduleRepeatingTask(this, () -> {
-            try (Jedis jedis = jBridgeCore.getJedisPool().getResource()) {
-                serviceInfo.getPlayers().clear();
-                getServer().getOnlinePlayers().values().forEach(player -> serviceInfo.addPlayer(player.getName()));
-                jedis.publish(JBridgeCore.SERVICE_CACHE_CHANNEL, jBridgeCore.getGson().toJson(serviceInfo));
-            }
+            serviceInfo.getPlayers().clear();
+            getServer().getOnlinePlayers().values().forEach(player -> serviceInfo.addPlayer(player.getName()));
+
+            jBridgeCore.getPacketHandler().publishPacket(new ServiceDataUpdatePacket(){{
+                    data = jBridgeCore.getGson().toJson(serviceInfo);
+            }});
         }, 20, true);
     }
 

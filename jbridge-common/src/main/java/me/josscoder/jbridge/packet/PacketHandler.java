@@ -15,6 +15,10 @@ public class PacketHandler {
 
     private final Map<Byte, Class<? extends DataPacket>> registeredPackets = new HashMap<>();
 
+    public PacketHandler() {
+        subscribePacket(new ServiceDataUpdatePacket());
+    }
+
     public void subscribePacket(DataPacket ...packets) {
         Arrays.stream(packets).forEach(packet -> {
             registeredPackets.putIfAbsent(packet.getPid(), packet.getClass());
@@ -76,7 +80,7 @@ public class PacketHandler {
             jedis.publish(JBridgeCore.PACKET_CHANNEL, output.toByteArray());
 
             if (core.isDebug()) {
-                core.getLogger().debug("Packet " + packet.getClass().getName() + " encoded and sent!");
+                core.getLogger().debug("DataPacket " + packet.getClass().getName() + " encoded and sent!");
             }
         }
     }

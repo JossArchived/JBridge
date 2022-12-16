@@ -13,7 +13,6 @@ import me.josscoder.jbridge.service.ServiceInfo;
 import redis.clients.jedis.BinaryJedisPubSub;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPubSub;
 
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ForkJoinPool;
@@ -27,9 +26,6 @@ public class JBridgeCore {
     @Getter
     private static JBridgeCore instance;
 
-    public static final String SERVICE_CACHE_CHANNEL = "jbridge-service-cache-channel",
-            MESSAGE_CHANNEL = "jbridge-message-channel";
-
     public static final byte[] PACKET_CHANNEL = "jbridge-packet-channel".getBytes(StandardCharsets.UTF_8);
 
     private boolean debug;
@@ -38,7 +34,6 @@ public class JBridgeCore {
     private JedisPool jedisPool = null;
     private Gson gson;
 
-    private JedisPubSub serviceCachePubSub = null;
     private BinaryJedisPubSub packetPubSub = null;
 
     private PacketHandler packetHandler;
@@ -70,24 +65,6 @@ public class JBridgeCore {
         ForkJoinPool.commonPool().execute(() -> {
             try {
                 try (Jedis jedis = jedisPool.getResource()) {
-                    jedis.subscribe(serviceCachePubSub = new JedisPubSub() {
-                        @Override
-                        public void onMessage(String channel, String message) {
-                            ServiceInfo data = gson.fromJson(message, ServiceInfo.class);
-                            serviceInfoCache.put(data.getId(), data);
-                        }
-
-                        @Override
-                        public void onSubscribe(String channel, int subscribedChannels) {
-                            if (debug) logger.info("JBridge cache pubSub Started!");
-                        }
-
-                        @Override
-                        public void onUnsubscribe(String channel, int subscribedChannels) {
-                            if (debug) logger.info("JBridge cache pubSub Stopped!");
-                        }
-                    }, SERVICE_CACHE_CHANNEL);
-
                     jedis.subscribe(packetPubSub = new BinaryJedisPubSub(){
                         @Override
                         public void onMessage(byte[] channel, byte[] message) {
@@ -118,7 +95,6 @@ public class JBridgeCore {
     }
 
     public void shutdown() {
-        if (serviceCachePubSub != null) serviceCachePubSub.unsubscribe();
         if (packetPubSub != null) packetPubSub.unsubscribe();
         if (jedisPool != null) jedisPool.close();
     }
