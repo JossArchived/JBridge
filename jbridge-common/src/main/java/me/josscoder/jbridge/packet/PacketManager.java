@@ -32,7 +32,7 @@ public class PacketManager {
 
                 JBridgeCore core = JBridgeCore.getInstance();
                 ServiceInfo data = core.getGson().fromJson(((ServiceDataUpdatePacket) packet).data, ServiceInfo.class);
-                core.getServiceInfoCache().put(data.getId(), data);
+                core.getServiceInfoCache().put(data.getShortId(), data);
             }
         });
     }

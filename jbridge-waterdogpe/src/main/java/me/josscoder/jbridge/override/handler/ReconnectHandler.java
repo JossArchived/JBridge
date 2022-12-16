@@ -10,7 +10,7 @@ import me.josscoder.jbridge.JBridgeWaterdogPE;
 public class ReconnectHandler implements IReconnectHandler {
     @Override
     public ServerInfo getFallbackServer(ProxiedPlayer player, ServerInfo oldServer, String kickMessage) {
-        String proxyId = JBridgeWaterdogPE.getInstance().getServiceInfo().getId();
+        String proxyId = JBridgeWaterdogPE.getInstance().getServiceInfo().getGroupAndShortId();
 
         player.sendMessage("§8Unexpected? Report this §7(" + proxyId + "-" + oldServer.getServerName() + "): §c" + kickMessage +
                 "\n" +

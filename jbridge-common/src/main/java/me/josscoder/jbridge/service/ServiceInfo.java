@@ -25,6 +25,14 @@ public class ServiceInfo {
         return region + "-" + getGroupAndId();
     }
 
+    public String getGroupAndShortId() {
+        return String.format("%s-%s", group, getShortId());
+    }
+
+    public String getRegionGroupAndShortId() {
+        return region + "-" + getGroupAndShortId();
+    }
+
     public void addPlayer(String player) {
         players.add(player);
     }
