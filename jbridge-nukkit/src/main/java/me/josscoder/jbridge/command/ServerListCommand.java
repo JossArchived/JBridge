@@ -24,8 +24,7 @@ public class ServerListCommand extends Command {
 
         sender.sendMessage(TextFormat.BLUE + "Server list: ");
         serviceHandler.getServiceInfoMapCache().values().forEach(service -> sender.sendMessage(
-                (sender.isPlayer() && service.containsPlayer(sender.getName()) ||
-                        service.getId().equalsIgnoreCase(JBridgeNukkit.getInstance().getServiceInfo().getId())
+                (service.getId().equalsIgnoreCase(JBridgeNukkit.getInstance().getServiceInfo().getId())
                         ? TextFormat.GOLD
                         : TextFormat.GRAY
                 ) + String.format("- %s §c%s §a%s-%s §f(%s/%s)",

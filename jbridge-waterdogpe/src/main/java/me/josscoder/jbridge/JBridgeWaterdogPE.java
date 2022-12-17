@@ -53,15 +53,14 @@ public class JBridgeWaterdogPE extends Plugin {
                 -1
         );
 
-        handlerCommands();
+        registerCommands();
         registerHandlers();
         subscribeEvents();
         getProxy().getScheduler().scheduleRepeating(new ServicePongTask(), 20 * 5, true);
     }
 
-    private void handlerCommands() {
+    private void registerCommands() {
         CommandMap map = getProxy().getCommandMap();
-        map.unregisterCommand("wdlist");
         map.registerCommand(new WhereAmICommand());
     }
 
