@@ -80,6 +80,8 @@ public class ServiceHandler {
         List<ServiceInfo> services = new ArrayList<>();
         services.addAll(getGroupServices("lobby"));
         services.addAll(getGroupServices("hub"));
+        services.addAll(getGroupServices("hub-main"));
+        services.addAll(getGroupServices("lobby-main"));
 
         return services;
     }
