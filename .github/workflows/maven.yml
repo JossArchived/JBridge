@@ -34,7 +34,7 @@ jobs:
       - name: Upload Artifact
         uses: ncipollo/release-action@v1.10.0
         with:
-          artifacts: ${{ github.workspace }}/jbridge-common/target/*.jar, ${{ github.workspace }}/jbridge-nukkit/target/*.jar, ${{ github.workspace }}/jbridge-waterdogpe/target/*.jar, ${{ github.workspace }}/jbridge-lobby/jbridge-lobby-nukkit/target/*.jar, , ${{ github.workspace }}/jbridge-lobby/jbridge-lobby-waterdogpe/target/*.jar
+          artifacts: ${{ github.workspace }}/jbridge-common/target/*.jar, ${{ github.workspace }}/jbridge-nukkit/target/*.jar, ${{ github.workspace }}/jbridge-waterdogpe/target/*.jar, ${{ github.workspace }}/jbridge-lobby/jbridge-lobby-nukkit/target/*.jar, ${{ github.workspace }}/jbridge-lobby/jbridge-lobby-waterdogpe/target/*.jar
           draft: false
           name: JBridge Release
           tag: v${{ env.JBRIDGE_VERSION }}
