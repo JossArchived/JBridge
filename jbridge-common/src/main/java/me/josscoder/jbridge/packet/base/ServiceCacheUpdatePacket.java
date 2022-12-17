@@ -7,21 +7,21 @@ import me.josscoder.jbridge.packet.DataPacket;
 /**
  * Sample packet, used to keep jbridge clients and servers in sync
  */
-public class ServiceDataUpdatePacket extends DataPacket {
+public class ServiceCacheUpdatePacket extends DataPacket {
 
-    public String data;
+    public String cache;
 
-    public ServiceDataUpdatePacket() {
+    public ServiceCacheUpdatePacket() {
         super((byte) 0x01);
     }
 
     @Override
     public void encode(ByteArrayDataOutput output) {
-        output.writeUTF(data);
+        output.writeUTF(cache);
     }
 
     @Override
     public void decode(ByteArrayDataInput input) {
-        data = input.readUTF();
+        cache = input.readUTF();
     }
 }

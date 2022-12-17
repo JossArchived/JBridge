@@ -4,7 +4,7 @@ import cn.nukkit.Server;
 import cn.nukkit.scheduler.Task;
 import me.josscoder.jbridge.JBridgeCore;
 import me.josscoder.jbridge.JBridgeNukkit;
-import me.josscoder.jbridge.packet.base.ServiceDataUpdatePacket;
+import me.josscoder.jbridge.packet.base.ServiceCacheUpdatePacket;
 import me.josscoder.jbridge.service.ServiceInfo;
 
 public class ServicePingTask extends Task {
@@ -16,8 +16,8 @@ public class ServicePingTask extends Task {
         Server.getInstance().getOnlinePlayers().values().forEach(player -> serviceInfo.addPlayer(player.getName()));
 
         JBridgeCore jBridgeCore = JBridgeCore.getInstance();
-        jBridgeCore.getPacketManager().publishPacket(new ServiceDataUpdatePacket(){{
-            data = jBridgeCore.getGson().toJson(serviceInfo);
+        jBridgeCore.getPacketManager().publishPacket(new ServiceCacheUpdatePacket(){{
+            cache = jBridgeCore.getGson().toJson(serviceInfo);
         }});
     }
 }
