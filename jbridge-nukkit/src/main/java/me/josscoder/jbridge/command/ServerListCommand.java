@@ -1,33 +1,33 @@
 package me.josscoder.jbridge.command;
 
-import dev.waterdog.waterdogpe.command.Command;
-import dev.waterdog.waterdogpe.command.CommandSender;
-import dev.waterdog.waterdogpe.command.CommandSettings;
-import dev.waterdog.waterdogpe.logger.Color;
+import cn.nukkit.command.Command;
+import cn.nukkit.command.CommandSender;
+import cn.nukkit.utils.TextFormat;
 import me.josscoder.jbridge.JBridgeCore;
+import me.josscoder.jbridge.JBridgeNukkit;
 import me.josscoder.jbridge.service.ServiceHandler;
 
 public class ServerListCommand extends Command {
 
     public ServerListCommand() {
-        super("wdlist", CommandSettings.builder()
-                .setDescription("waterdog.command.list.description")
-                .setUsageMessage("waterdog.command.list.usage")
-                .setPermission("waterdog.command.list.permission")
-                .setAliases(new String[]{"serverlist", "servicelist", "services", "servers"})
-                .build()
+        super("serverlist",
+                "Displays the list of servers",
+                "/serverlist",
+                new String[]{"servicelist", "services", "servers"}
         );
+        setPermission("jbridge.command.serverlist");
     }
 
     @Override
-    public boolean onExecute(CommandSender sender, String alias, String[] args) {
+    public boolean execute(CommandSender sender, String s, String[] strings) {
         ServiceHandler serviceHandler = JBridgeCore.getInstance().getServiceHandler();
 
-        sender.sendMessage(Color.BLUE + "Server list: ");
+        sender.sendMessage(TextFormat.BLUE + "Server list: ");
         serviceHandler.getServiceInfoMapCache().values().forEach(service -> sender.sendMessage(
-                (sender.isPlayer() && service.containsPlayer(sender.getName())
-                        ? Color.GOLD
-                        : Color.GRAY
+                (sender.isPlayer() && service.containsPlayer(sender.getName()) ||
+                        service.getId().equalsIgnoreCase(JBridgeNukkit.getInstance().getServiceInfo().getId())
+                        ? TextFormat.GOLD
+                        : TextFormat.GRAY
                 ) + String.format("- %s §c%s §a%s-%s §f(%s/%s)",
                         service.getShortId(),
                         service.getGroup().toUpperCase(),
@@ -37,7 +37,7 @@ public class ServerListCommand extends Command {
                         service.getMaxPlayers()
                 )
         ));
-        sender.sendMessage(Color.GRAY + String.format("There are %s/%s on the network",
+        sender.sendMessage(TextFormat.GRAY + String.format("There are %s/%s on the network",
                 serviceHandler.getPlayersOnline(),
                 serviceHandler.getMaxPlayers())
         );

@@ -9,7 +9,6 @@ import dev.waterdog.waterdogpe.logger.Color;
 import dev.waterdog.waterdogpe.plugin.Plugin;
 import dev.waterdog.waterdogpe.utils.config.Configuration;
 import lombok.Getter;
-import me.josscoder.jbridge.command.ServerListCommand;
 import me.josscoder.jbridge.command.WhereAmICommand;
 import me.josscoder.jbridge.proxyhandler.JoinHandler;
 import me.josscoder.jbridge.proxyhandler.ReconnectHandler;
@@ -64,7 +63,6 @@ public class JBridgeWaterdogPE extends Plugin {
         CommandMap map = getProxy().getCommandMap();
         map.unregisterCommand("wdlist");
         map.registerCommand(new WhereAmICommand());
-        map.registerCommand(new ServerListCommand());
     }
 
     private void registerHandlers() {
