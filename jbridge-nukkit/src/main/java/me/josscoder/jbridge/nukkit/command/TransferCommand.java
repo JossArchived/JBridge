@@ -29,7 +29,7 @@ public class TransferCommand extends Command {
 
         String serverName = args[0];
         if (!JBridgeCore.getInstance().getServiceHandler().containsService(serverName)) {
-            player.sendMessage(TextFormat.RED + "The server is currently not in rotation");
+            player.sendMessage(TextFormat.RED + "That server is currently not in rotation");
             return true;
         }
 

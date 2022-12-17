@@ -24,7 +24,7 @@ public class LobbyCommand extends Command {
 
         String balancedLobbyService = JBridgeLobby.getInstance().getBalancedLobbyServiceShortId();
         if (balancedLobbyService.isEmpty()) {
-            player.sendMessage(TextFormat.RED + "There are no rotating lobby servers!");
+            player.sendMessage(TextFormat.RED + "No rotating lobby servers!");
             return false;
         }
 

@@ -7,7 +7,6 @@ import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.Config;
 import lombok.Getter;
 import me.josscoder.jbridge.JBridgeCore;
-import me.josscoder.jbridge.nukkit.command.ServerListCommand;
 import me.josscoder.jbridge.nukkit.command.TransferCommand;
 import me.josscoder.jbridge.nukkit.command.WhereAmICommand;
 import me.josscoder.jbridge.service.ServiceInfo;
@@ -63,7 +62,6 @@ public class JBridgeNukkit extends PluginBase {
     private void registerCommands() {
         SimpleCommandMap map = getServer().getCommandMap();
         map.register("transfer", new TransferCommand());
-        map.register("serverlist", new ServerListCommand());
         map.register("whereami", new WhereAmICommand());
     }
 

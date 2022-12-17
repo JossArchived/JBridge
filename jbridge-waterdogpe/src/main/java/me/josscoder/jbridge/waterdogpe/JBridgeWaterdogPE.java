@@ -11,6 +11,7 @@ import dev.waterdog.waterdogpe.utils.config.Configuration;
 import lombok.Getter;
 import me.josscoder.jbridge.JBridgeCore;
 import me.josscoder.jbridge.service.ServiceInfo;
+import me.josscoder.jbridge.waterdogpe.command.ServerListCommand;
 import me.josscoder.jbridge.waterdogpe.command.WhereAmICommand;
 import me.josscoder.jbridge.waterdogpe.task.ServicePongTask;
 
@@ -52,14 +53,16 @@ public class JBridgeWaterdogPE extends Plugin {
                 -1
         );
 
-        registerCommands();
+        handleCommands();
         subscribeEvents();
         getProxy().getScheduler().scheduleRepeating(new ServicePongTask(), 20 * 5, true);
     }
 
-    private void registerCommands() {
+    private void handleCommands() {
         CommandMap map = getProxy().getCommandMap();
+        map.unregisterCommand("wdlist");
         map.registerCommand(new WhereAmICommand());
+        map.registerCommand(new ServerListCommand());
     }
 
     private void subscribeEvents() {
