@@ -4,9 +4,9 @@ import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
 import me.josscoder.jbridge.JBridgeNukkit;
 
-public class WhereAmiCommand extends Command {
+public class WhereAmICommand extends Command {
 
-    public WhereAmiCommand() {
+    public WhereAmICommand() {
         super("whereami", "Provide information about the server you are on");
     }
 

@@ -1,4 +1,4 @@
-package me.josscoder.jbridge;
+package me.josscoder.jbridge.waterdogpe;
 
 import me.josscoder.jbridge.logger.ILogger;
 import dev.waterdog.waterdogpe.logger.Color;

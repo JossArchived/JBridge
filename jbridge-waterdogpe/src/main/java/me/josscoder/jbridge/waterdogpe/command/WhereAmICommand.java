@@ -1,9 +1,9 @@
-package me.josscoder.jbridge.command;
+package me.josscoder.jbridge.waterdogpe.command;
 
 import dev.waterdog.waterdogpe.command.Command;
 import dev.waterdog.waterdogpe.command.CommandSender;
 import dev.waterdog.waterdogpe.command.CommandSettings;
-import me.josscoder.jbridge.JBridgeWaterdogPE;
+import me.josscoder.jbridge.waterdogpe.JBridgeWaterdogPE;
 
 public class WhereAmICommand extends Command {
 

@@ -1,4 +1,4 @@
 name: JBridge
-main: me.josscoder.jbridge.JBridgeWaterdogPE
+main: me.josscoder.jbridge.waterdogpe.JBridgeWaterdogPE
 version: ${project.version}
 author: Josscoder

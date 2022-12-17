@@ -6,7 +6,7 @@ import dev.waterdog.waterdogpe.network.serverinfo.ServerInfo;
 import dev.waterdog.waterdogpe.player.ProxiedPlayer;
 import dev.waterdog.waterdogpe.utils.types.IReconnectHandler;
 import me.josscoder.jbridge.JBridgeCore;
-import me.josscoder.jbridge.JBridgeWaterdogPE;
+import me.josscoder.jbridge.waterdogpe.JBridgeWaterdogPE;
 
 public class ReconnectHandler implements IReconnectHandler {
     @Override

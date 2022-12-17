@@ -1,4 +1,4 @@
-package me.josscoder.jbridge;
+package me.josscoder.jbridge.waterdogpe;
 
 import dev.waterdog.waterdogpe.command.CommandMap;
 import dev.waterdog.waterdogpe.event.EventManager;
@@ -9,11 +9,12 @@ import dev.waterdog.waterdogpe.logger.Color;
 import dev.waterdog.waterdogpe.plugin.Plugin;
 import dev.waterdog.waterdogpe.utils.config.Configuration;
 import lombok.Getter;
-import me.josscoder.jbridge.command.WhereAmICommand;
+import me.josscoder.jbridge.JBridgeCore;
+import me.josscoder.jbridge.waterdogpe.command.WhereAmICommand;
 import me.josscoder.jbridge.proxyhandler.JoinHandler;
 import me.josscoder.jbridge.proxyhandler.ReconnectHandler;
 import me.josscoder.jbridge.service.ServiceInfo;
-import me.josscoder.jbridge.task.ServicePongTask;
+import me.josscoder.jbridge.waterdogpe.task.ServicePongTask;
 
 import java.util.UUID;
 

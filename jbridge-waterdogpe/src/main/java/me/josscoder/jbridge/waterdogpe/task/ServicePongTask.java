@@ -1,10 +1,10 @@
-package me.josscoder.jbridge.task;
+package me.josscoder.jbridge.waterdogpe.task;
 
 import dev.waterdog.waterdogpe.ProxyServer;
 import dev.waterdog.waterdogpe.network.serverinfo.BedrockServerInfo;
 import dev.waterdog.waterdogpe.network.serverinfo.ServerInfo;
 import me.josscoder.jbridge.JBridgeCore;
-import me.josscoder.jbridge.JBridgeWaterdogPE;
+import me.josscoder.jbridge.waterdogpe.JBridgeWaterdogPE;
 import me.josscoder.jbridge.service.ServiceInfo;
 import org.apache.logging.log4j.Logger;
 
