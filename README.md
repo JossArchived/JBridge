@@ -29,7 +29,7 @@ JBridge facilitates communication in minecraft bedrock networks, between Nukkit 
 
 
 
-- [x] Auto add and remove servers
+- [x] Automatic server registration at WaterdogPE without the need to specify servers manually in the Waterdog config.
 
 ## Download and setup 🛒
 
