@@ -37,6 +37,11 @@ public class ServerListCommand extends Command {
                         service.getMaxPlayers()
                 )
         ));
+        sender.sendMessage(Color.GRAY.toString() + Color.ESCAPE +
+                String.format("There are %s/%s on the network",
+                serviceHandler.getPlayersOnline(),
+                serviceHandler.getMaxPlayers())
+        );
         return true;
     }
 }
