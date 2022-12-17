@@ -13,7 +13,7 @@ JBridge facilitates communication in minecraft bedrock networks, between Nukkit 
 
 
 
-- [x] Custom Fallback & JoinHandler (Hub/Lobby Systen)
+- [x] Lobby System, [look here]()
 
 
 

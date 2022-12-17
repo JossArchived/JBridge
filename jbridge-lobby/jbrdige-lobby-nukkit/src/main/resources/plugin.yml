@@ -1,0 +1,7 @@
+name: JBridgeLobby
+main: me.josscoder.jbridge.lobby.JBridgeLobby
+api: 1.0.0
+version: ${project.version}
+author: Josscoder
+softdepend:
+  - JBridge

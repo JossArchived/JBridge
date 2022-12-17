@@ -16,6 +16,9 @@
         <module>jbridge-common</module>
         <module>jbridge-nukkit</module>
         <module>jbridge-waterdogpe</module>
+        <module>jbridge-lobby</module>
+        <module>jbridge-lobby/jbrdige-lobby-nukkit</module>
+        <module>jbridge-lobby/jbridge-lobby-waterdogpe</module>
     </modules>
 
     <properties>
