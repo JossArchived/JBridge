@@ -9,6 +9,7 @@ import lombok.Getter;
 import me.josscoder.jbridge.command.HubCommand;
 import me.josscoder.jbridge.command.ServerListCommand;
 import me.josscoder.jbridge.command.TransferCommand;
+import me.josscoder.jbridge.command.WhereAmiCommand;
 import me.josscoder.jbridge.service.ServiceInfo;
 import me.josscoder.jbridge.task.ServicePingTask;
 
@@ -64,6 +65,7 @@ public class JBridgeNukkit extends PluginBase {
         map.register("hub", new HubCommand());
         map.register("transfer", new TransferCommand());
         map.register("serverlist", new ServerListCommand());
+        map.register("whereami", new WhereAmiCommand());
     }
 
     public void transferPlayer(Player player, String serverName) {

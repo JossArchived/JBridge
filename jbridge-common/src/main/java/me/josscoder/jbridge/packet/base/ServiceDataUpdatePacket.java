@@ -4,6 +4,9 @@ import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import me.josscoder.jbridge.packet.DataPacket;
 
+/**
+ * Sample packet, used to keep jbridge clients and servers in sync
+ */
 public class ServiceDataUpdatePacket extends DataPacket {
 
     public String data;
