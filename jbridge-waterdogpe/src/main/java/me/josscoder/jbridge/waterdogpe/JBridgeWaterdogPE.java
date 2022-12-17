@@ -10,10 +10,8 @@ import dev.waterdog.waterdogpe.plugin.Plugin;
 import dev.waterdog.waterdogpe.utils.config.Configuration;
 import lombok.Getter;
 import me.josscoder.jbridge.JBridgeCore;
-import me.josscoder.jbridge.waterdogpe.command.WhereAmICommand;
-import me.josscoder.jbridge.proxyhandler.JoinHandler;
-import me.josscoder.jbridge.proxyhandler.ReconnectHandler;
 import me.josscoder.jbridge.service.ServiceInfo;
+import me.josscoder.jbridge.waterdogpe.command.WhereAmICommand;
 import me.josscoder.jbridge.waterdogpe.task.ServicePongTask;
 
 import java.util.UUID;
@@ -55,7 +53,6 @@ public class JBridgeWaterdogPE extends Plugin {
         );
 
         registerCommands();
-        registerHandlers();
         subscribeEvents();
         getProxy().getScheduler().scheduleRepeating(new ServicePongTask(), 20 * 5, true);
     }
@@ -63,11 +60,6 @@ public class JBridgeWaterdogPE extends Plugin {
     private void registerCommands() {
         CommandMap map = getProxy().getCommandMap();
         map.registerCommand(new WhereAmICommand());
-    }
-
-    private void registerHandlers() {
-        getProxy().setJoinHandler(new JoinHandler());
-        getProxy().setReconnectHandler(new ReconnectHandler());
     }
 
     private void subscribeEvents() {

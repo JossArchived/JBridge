@@ -1,10 +1,10 @@
-package me.josscoder.jbridge.command;
+package me.josscoder.jbridge.nukkit.command;
 
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.utils.TextFormat;
 import me.josscoder.jbridge.JBridgeCore;
-import me.josscoder.jbridge.JBridgeNukkit;
+import me.josscoder.jbridge.nukkit.JBridgeNukkit;
 import me.josscoder.jbridge.service.ServiceHandler;
 
 public class ServerListCommand extends Command {

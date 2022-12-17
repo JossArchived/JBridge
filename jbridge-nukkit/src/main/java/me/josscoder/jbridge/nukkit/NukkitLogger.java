@@ -1,4 +1,4 @@
-package me.josscoder.jbridge;
+package me.josscoder.jbridge.nukkit;
 
 import cn.nukkit.plugin.PluginLogger;
 import cn.nukkit.utils.TextFormat;

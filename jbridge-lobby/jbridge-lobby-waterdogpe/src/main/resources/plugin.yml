@@ -1,6 +1,5 @@
 name: JBridgeLobby
-main: me.josscoder.jbridge.nukkit.lobby.JBridgeLobby
-api: 1.0.0
+main: me.josscoder.jbridge.waterdogpe.lobby.JBridgeLobby
 version: ${project.version}
 author: Josscoder
 softdepend:

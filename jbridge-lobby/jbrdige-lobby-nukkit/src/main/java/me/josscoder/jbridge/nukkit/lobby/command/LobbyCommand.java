@@ -1,11 +1,11 @@
-package me.josscoder.jbridge.lobby.command;
+package me.josscoder.jbridge.nukkit.lobby.command;
 
 import cn.nukkit.Player;
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.utils.TextFormat;
-import me.josscoder.jbridge.JBridgeCore;
-import me.josscoder.jbridge.JBridgeNukkit;
+import me.josscoder.jbridge.nukkit.JBridgeNukkit;
+import me.josscoder.jbridge.nukkit.lobby.JBridgeLobby;
 
 public class LobbyCommand extends Command {
 
@@ -22,7 +22,7 @@ public class LobbyCommand extends Command {
         if (!sender.isPlayer()) return false;
         Player player = (Player) sender;
 
-        String balancedLobbyService = JBridgeCore.getInstance().getServiceHandler().getBalancedHubServiceShortId();
+        String balancedLobbyService = JBridgeLobby.getInstance().getBalancedLobbyServiceShortId();
         if (balancedLobbyService.isEmpty()) {
             player.sendMessage(TextFormat.RED + "There are no rotating lobby servers!");
             return false;

@@ -1,4 +1,4 @@
-package me.josscoder.jbridge;
+package me.josscoder.jbridge.nukkit;
 
 import cn.nukkit.Player;
 import cn.nukkit.command.SimpleCommandMap;
@@ -6,11 +6,12 @@ import cn.nukkit.network.protocol.TransferPacket;
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.Config;
 import lombok.Getter;
-import me.josscoder.jbridge.command.ServerListCommand;
-import me.josscoder.jbridge.command.TransferCommand;
-import me.josscoder.jbridge.command.WhereAmICommand;
+import me.josscoder.jbridge.JBridgeCore;
+import me.josscoder.jbridge.nukkit.command.ServerListCommand;
+import me.josscoder.jbridge.nukkit.command.TransferCommand;
+import me.josscoder.jbridge.nukkit.command.WhereAmICommand;
 import me.josscoder.jbridge.service.ServiceInfo;
-import me.josscoder.jbridge.task.ServicePingTask;
+import me.josscoder.jbridge.nukkit.task.ServicePingTask;
 
 import java.util.UUID;
 

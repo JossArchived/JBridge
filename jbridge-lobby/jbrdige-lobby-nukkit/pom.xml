@@ -10,6 +10,7 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
+    <groupId>me.josscoder.jbridge.nukkit.lobby</groupId>
     <artifactId>jbrdige-lobby-nukkit</artifactId>
 
     <build>
@@ -53,7 +54,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>me.josscoder.jbridge</groupId>
+            <groupId>me.josscoder.jbridge.nukkit</groupId>
             <artifactId>jbridge-nukkit</artifactId>
             <version>1.1</version>
             <scope>compile</scope>

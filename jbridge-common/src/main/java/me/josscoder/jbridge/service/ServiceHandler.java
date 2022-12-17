@@ -2,7 +2,6 @@ package me.josscoder.jbridge.service;
 
 import me.josscoder.jbridge.JBridgeCore;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -74,24 +73,5 @@ public class ServiceHandler {
                 .stream()
                 .mapToInt(ServiceInfo::getMaxPlayers)
                 .sum();
-    }
-
-    public List<ServiceInfo> getHubServices() {
-        List<ServiceInfo> services = new ArrayList<>();
-        services.addAll(getGroupServices("lobby"));
-        services.addAll(getGroupServices("hub"));
-        services.addAll(getGroupServices("hub-main"));
-        services.addAll(getGroupServices("lobby-main"));
-
-        return services;
-    }
-
-    public ServiceInfo getBalancedHubService() {
-        return getBalancedService(getHubServices());
-    }
-
-    public String getBalancedHubServiceShortId() {
-        ServiceInfo serviceInfo = getBalancedHubService();
-        return serviceInfo == null ? "" : serviceInfo.getShortId();
     }
 }
