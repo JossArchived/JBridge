@@ -57,7 +57,7 @@
             <groupId>me.josscoder.jbridge.nukkit</groupId>
             <artifactId>jbridge-nukkit</artifactId>
             <version>1.0.1</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>cn.nukkit</groupId>
