@@ -3,6 +3,7 @@ package me.josscoder.jbridge.waterdogpe.lobby;
 import dev.waterdog.waterdogpe.plugin.Plugin;
 import lombok.Getter;
 import me.josscoder.jbridge.JBridgeCore;
+import me.josscoder.jbridge.service.ServiceHandler;
 import me.josscoder.jbridge.service.ServiceInfo;
 import me.josscoder.jbridge.waterdogpe.lobby.proxyhandler.JoinHandler;
 import me.josscoder.jbridge.waterdogpe.lobby.proxyhandler.ReconnectHandler;
@@ -43,7 +44,9 @@ public class JBridgeLobby extends Plugin {
     }
 
     public ServiceInfo getBalancedLobbyService() {
-        return JBridgeCore.getInstance().getServiceHandler().getBalancedService(getLobbyServices());
+        return JBridgeCore.getInstance()
+                .getServiceHandler()
+                .getServiceFromListBySortMode(getLobbyServices(), ServiceHandler.SortMode.LOWEST);
     }
 
     public String getBalancedLobbyServiceShortId() {

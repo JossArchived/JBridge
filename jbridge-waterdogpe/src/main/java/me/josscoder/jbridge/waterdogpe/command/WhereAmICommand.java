@@ -25,7 +25,7 @@ public class WhereAmICommand extends Command {
         String proxyId = JBridgeWaterdogPE.getInstance().getServiceInfo().getGroupAndId();
 
         if (!sender.isPlayer()) {
-            sender.sendMessage("You are connected to proxy " + proxyId);
+            sender.sendMessage(Color.GOLD + git "You are connected to proxy " + proxyId);
             return true;
         }
 
@@ -39,8 +39,10 @@ public class WhereAmICommand extends Command {
         ServiceInfo serviceInfo = JBridgeCore.getInstance().getServiceHandler().getService(serviceId);
         if (serverInfo != null) serviceId = serviceInfo.getGroupAndId();
 
-        sender.sendMessage("You are connected to proxy " + proxyId);
-        sender.sendMessage("You are connected to server " + serviceId);
+        sender.sendMessage(Color.GOLD + "You are connected to proxy " + proxyId +
+                "\n" +
+                "You are connected to server " + serviceId
+        );
         return true;
     }
 }

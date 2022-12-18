@@ -41,7 +41,7 @@ public class ServerListCommand extends Command {
         List<ServerInfo> servers = new ArrayList<>(sender.getProxy().getServers());
         servers.sort(Comparator.comparing(ServerInfo::getServerName));
 
-        StringBuilder builder = new StringBuilder("§l§9Showing all servers:\n§r");
+        StringBuilder builder = new StringBuilder("§l§6Showing all servers:\n§r");
         for (ServerInfo serverInfo : servers) {
             builder.append(buildServerList(serverInfo)).append("\n").append(Color.RESET);
         }
@@ -60,12 +60,14 @@ public class ServerListCommand extends Command {
         ServiceHandler serviceHandler = JBridgeCore.getInstance().getServiceHandler();
         ServiceInfo service = serviceHandler.getService(serverInfo.getServerName());
 
-        return String.format("§3[%s] §c%s §a%s-%s §b(%s): §f%s",
+        return String.format("§3[%s] §c%s §a%s-%s %s(%s/%s): §f%s",
                 serverInfo.getServerName(),
                 service == null ? "?" : service.getGroup().toUpperCase(),
                 service == null ? "?" : service.getRegion().toUpperCase(),
                 service == null ? "?" : service.getBranch().toUpperCase(),
+                service == null || !service.isFull() ? "§b" : "§9",
                 serverInfo.getPlayers().size(),
+                service == null ? "?" : service.getMaxPlayers(),
                 joiner
         );
     }

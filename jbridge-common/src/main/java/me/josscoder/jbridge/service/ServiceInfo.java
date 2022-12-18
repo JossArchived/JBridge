@@ -44,4 +44,8 @@ public class ServiceInfo {
     public int getPlayersOnline() {
         return players.size();
     }
+
+    public boolean isFull() {
+        return getPlayersOnline() >= maxPlayers;
+    }
 }

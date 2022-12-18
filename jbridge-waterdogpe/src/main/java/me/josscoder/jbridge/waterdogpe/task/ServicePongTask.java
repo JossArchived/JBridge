@@ -49,9 +49,9 @@ public class ServicePongTask implements Runnable {
                 .forEach(service -> registerService(service, AddType.NORMAL));
     }
 
-    enum AddType {
-        UPDATE_ADDRESS,
-        NORMAL
+    private enum AddType {
+        NORMAL,
+        UPDATE_ADDRESS
     }
 
     private void registerService(ServiceInfo service, AddType addType) {

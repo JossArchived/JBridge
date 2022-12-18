@@ -2,6 +2,7 @@ package me.josscoder.jbridge.nukkit.command;
 
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
+import cn.nukkit.utils.TextFormat;
 import me.josscoder.jbridge.nukkit.JBridgeNukkit;
 
 public class WhereAmICommand extends Command {
@@ -17,7 +18,7 @@ public class WhereAmICommand extends Command {
     @Override
     public boolean execute(CommandSender sender, String s, String[] strings) {
         String serviceId = JBridgeNukkit.getInstance().getServiceInfo().getGroupAndId();
-        sender.sendMessage("You are connected to server " + serviceId);
+        sender.sendMessage(TextFormat.GOLD + "You are connected to server " + serviceId);
         return true;
     }
 }

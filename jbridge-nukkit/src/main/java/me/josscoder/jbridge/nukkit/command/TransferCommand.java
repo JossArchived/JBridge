@@ -6,6 +6,8 @@ import cn.nukkit.command.CommandSender;
 import cn.nukkit.utils.TextFormat;
 import me.josscoder.jbridge.JBridgeCore;
 import me.josscoder.jbridge.nukkit.JBridgeNukkit;
+import me.josscoder.jbridge.service.ServiceHandler;
+import me.josscoder.jbridge.service.ServiceInfo;
 
 public class TransferCommand extends Command {
 
@@ -28,12 +30,16 @@ public class TransferCommand extends Command {
         }
 
         String serverName = args[0];
-        if (!JBridgeCore.getInstance().getServiceHandler().containsService(serverName)) {
+
+        ServiceHandler serviceHandler = JBridgeCore.getInstance().getServiceHandler();
+        ServiceInfo service = serviceHandler.getService(serverName);
+
+        if (service == null) {
             player.sendMessage(TextFormat.RED + "That server is currently not in rotation");
             return true;
         }
 
-        JBridgeNukkit.getInstance().transferPlayer(player, serverName);
+        JBridgeNukkit.getInstance().transferPlayer(player, service.getShortId());
         return true;
     }
 }

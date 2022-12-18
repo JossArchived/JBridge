@@ -15,7 +15,10 @@ public class ServiceHandler {
     }
 
     public ServiceInfo getService(String id) {
-        return getServiceInfoMapCache().get(id);
+        return filterServices(service -> service.getId().startsWith(id))
+                .stream()
+                .findFirst()
+                .orElse(null);
     }
 
     public boolean containsService(String id) {
@@ -37,14 +40,14 @@ public class ServiceHandler {
         return getGroupServices(group).size() > 0;
     }
 
-    public List<ServiceInfo> getSortedServices(List<ServiceInfo> serviceList) {
-        return serviceList.stream()
-                .sorted(Comparator.comparingInt(ServiceInfo::getPlayersOnline))
-                .collect(Collectors.toList());
+    public boolean groupHasService(String group, String id) {
+        return getGroupServices(group).stream()
+                .anyMatch(service -> service.getId().startsWith(id));
     }
 
-    public ServiceInfo getBalancedService(List<ServiceInfo> serviceList) {
-        return serviceList.size() > 0 ? getSortedServices(serviceList).get(0) : null;
+    public boolean groupHasPlayer(String group, String player) {
+        return getGroupServices(group).stream()
+                .anyMatch(service -> service.containsPlayer(player));
     }
 
     public int getPlayersOnline(String group) {
@@ -73,5 +76,36 @@ public class ServiceHandler {
                 .stream()
                 .mapToInt(ServiceInfo::getMaxPlayers)
                 .sum();
+    }
+
+    public enum SortMode {
+        RANDOM,
+        LOWEST,
+        FILL
+    }
+
+    public ServiceInfo getServiceFromListBySortMode(List<ServiceInfo> serviceList, SortMode sortMode) {
+        ServiceInfo serviceInfo = null;
+
+        switch (sortMode) {
+            case RANDOM:
+                serviceInfo = serviceList.stream()
+                        .findAny()
+                        .orElse(null);
+                break;
+            case LOWEST:
+                serviceInfo = serviceList.stream()
+                        .min(Comparator.comparingInt(ServiceInfo::getPlayersOnline))
+                        .orElse(null);
+                break;
+            case FILL:
+                serviceInfo = serviceList.stream()
+                        .filter(service -> !service.isFull())
+                        .max(Comparator.comparingInt(ServiceInfo::getPlayersOnline))
+                        .orElse(null);
+                break;
+        }
+
+        return serviceInfo;
     }
 }

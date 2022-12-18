@@ -4,6 +4,7 @@ import cn.nukkit.plugin.PluginBase;
 import lombok.Getter;
 import me.josscoder.jbridge.JBridgeCore;
 import me.josscoder.jbridge.nukkit.lobby.command.LobbyCommand;
+import me.josscoder.jbridge.service.ServiceHandler;
 import me.josscoder.jbridge.service.ServiceInfo;
 
 import java.util.ArrayList;
@@ -41,7 +42,9 @@ public class JBridgeLobby extends PluginBase {
     }
 
     public ServiceInfo getBalancedLobbyService() {
-        return JBridgeCore.getInstance().getServiceHandler().getBalancedService(getLobbyServices());
+        return JBridgeCore.getInstance()
+                .getServiceHandler()
+                .getServiceFromListBySortMode(getLobbyServices(), ServiceHandler.SortMode.LOWEST);
     }
 
     public String getBalancedLobbyServiceShortId() {
