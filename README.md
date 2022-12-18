@@ -60,21 +60,40 @@ As I mentioned before, jbridge can manage services by groups, you can see more a
 <details>
     <summary>Nukkit</summary>
 
-1) 
-2)
-3)
-4)
-5)
+1) Download the latest jbridge-nukkit.jar [here](https://github.com/Josscoder/JBridge/releases/latest)
+2) Place the .jar in the plugins/ folder of your server
+3) Start your server
+4) Configure the service and your redis client in plugins/JBridge/config.yml
 </details>
 
 <details>
     <summary>Waterdog</summary>
 
-1)
-2)
-3)
-4)
-5)
+1) Download the latest jbridge-waterdogpe.jar [here](https://github.com/Josscoder/JBridge/releases/latest)
+2) Place the .jar in the plugins/ folder of your server
+3) Start your server
+4) Configure the service and your redis client in plugins/JBridge/config.yml
+</details>
+
+<details>
+    <summary>How to configure</summary>
+
+```yml
+debug: true #Just for development, to show the internal process of JBridge commons
+#recommendation to set this to false to avoid saturating the console with logs
+
+redis: #the configuration of your redis
+  hostname: "localhost"
+  port: 6379
+  password: "yourpasswordhere"
+
+service: #configuration of your service
+  id: "hub-1" #the id of your service, if you remove this section, the system will generate a custom id each time the plugin is enabled
+  group: "hub" #the group your service belongs to
+  region: "us" #the region to which your service belongs
+  branch: "dev" #the branch of your service, if it is "dev" the address will automatically change to "127.0.0.1"
+  address: "0.0.0.0" #the address of your service, if you remove this section you will get the address that is in server.propierties
+```
 </details>
 
 ## For developers 🧑‍💻
@@ -189,7 +208,6 @@ public class Test {
     });
   }
 }
-
 ```
 </details>
 <details>
