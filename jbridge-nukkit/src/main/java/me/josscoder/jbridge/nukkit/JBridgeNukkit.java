@@ -42,13 +42,13 @@ public class JBridgeNukkit extends PluginBase {
         );
 
         String branch = config.getString("service.branch", "dev");
+        String address = config.getString("service.address", getServer().getIp());
+
+        String finalAddress = (branch.startsWith("dev") ? "127.0.0.1" : address);
 
         serviceInfo = new ServiceInfo(
                 config.getString("service.id", UUID.randomUUID().toString().substring(0, 8)),
-                (branch.startsWith("dev")
-                        ? "127.0.0.1"
-                        : config.getString("service.address", getServer().getIp())
-                ) + ":" + getServer().getPort(),
+                finalAddress + ":" + getServer().getPort(),
                 config.getString("service.group", "hub"),
                 config.getString("service.region", "us"),
                 branch,

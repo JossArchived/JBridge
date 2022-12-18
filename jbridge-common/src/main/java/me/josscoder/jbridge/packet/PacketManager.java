@@ -79,7 +79,15 @@ public class PacketManager {
         }
 
         packet.decode(input);
-        packetHandlers.forEach(packetHandler -> packetHandler.onReceive(packet));
+        packetHandlers.forEach(packetHandler -> {
+            Runnable runnable = () -> packetHandler.onReceive(packet);
+
+            if (packet instanceof AsyncPacket) {
+                CompletableFuture.runAsync(runnable);
+            } else {
+                runnable.run();
+            }
+        });
 
         if (core.isDebug()) {
             core.getLogger().debug(String.format("DataPacket %s decoded and handled!", packet.getClass().getName()));
