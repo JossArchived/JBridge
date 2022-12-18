@@ -11,7 +11,7 @@
     </parent>
 
     <groupId>me.josscoder.jbridge.nukkit.lobby</groupId>
-    <artifactId>jbrdige-lobby-nukkit</artifactId>
+    <artifactId>jbridge-lobby-nukkit</artifactId>
 
     <build>
         <plugins>

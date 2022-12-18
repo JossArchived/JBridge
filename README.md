@@ -5,15 +5,15 @@ JBridge facilitates communication in minecraft bedrock networks, between Nukkit 
 
 ## Features 📃
 
-- [x] Server management system available for both clients, [look here](https://github.com/Josscoder/JBridge/blob/release/jbridge-common/src/main/java/me/josscoder/jbridge/service/ServiceHandler.java) and [here](https://github.com/Josscoder/JBridge/blob/release/jbridge-common/src/main/java/me/josscoder/jbridge/service/ServiceInfo.java)
+- [x] Server management system available for both clients
 
 
 
-- [x] Packet system using message broker, [look here](https://github.com/Josscoder/JBridge/blob/release/jbridge-common/src/main/java/me/josscoder/jbridge/packet/PacketManager.java) and [here](https://github.com/Josscoder/JBridge/blob/release/jbridge-common/src/main/java/me/josscoder/jbridge/packet/DataPacket.java)
+- [x] Packet system using message broker
 
 
 
-- [x] Lobby System, [look here]()
+- [x] Lobby System, [JBirdgeLobby](https://github.com/Josscoder/JBridge/tree/release/jbridge-lobby)
 
 
 
@@ -101,7 +101,7 @@ JBridge facilitates communication in minecraft bedrock networks, between Nukkit 
 
 ## Credits 🙋‍♂️🙋‍♀️
 
-- [DinamycServers: cache system & redis implementation](https://github.com/theminecoder/DynamicServers)
+- [DinamycServers: cache handler & redis implementation](https://github.com/theminecoder/DynamicServers)
 - [PacketListenerAPI: packet handler system](https://www.spigotmc.org/resources/api-packetlistenerapi.2930/)
 - [NetherGames: Inspiration](https://forums.nethergames.org/threads/netsys-network-communication-system.10514/)
 
