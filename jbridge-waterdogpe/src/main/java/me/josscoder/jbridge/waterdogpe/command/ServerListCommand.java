@@ -17,6 +17,8 @@ import java.util.StringJoiner;
 
 public class ServerListCommand extends Command {
 
+    private final ServiceHandler serviceHandler = JBridgeCore.getInstance().getServiceHandler();
+
     public ServerListCommand() {
         super("wdlist", CommandSettings.builder()
                 .setDescription("waterdog.command.list.description")
@@ -46,7 +48,10 @@ public class ServerListCommand extends Command {
             builder.append(buildServerList(serverInfo)).append("\n").append(Color.RESET);
         }
 
-        builder.append("§7Total online players: ").append(sender.getProxy().getPlayers().size());
+        builder.append("§7Total online players: ")
+                .append(sender.getProxy().getPlayers().size())
+                .append("/")
+                .append(serviceHandler.getMaxPlayers());
         sender.sendMessage(builder.toString());
         return true;
     }
@@ -57,7 +62,6 @@ public class ServerListCommand extends Command {
             joiner.add(player.getName());
         }
 
-        ServiceHandler serviceHandler = JBridgeCore.getInstance().getServiceHandler();
         ServiceInfo service = serviceHandler.getService(serverInfo.getServerName());
 
         return String.format("§3[%s] §c%s §a%s-%s %s(%s/%s): §f%s",
