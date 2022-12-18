@@ -25,7 +25,7 @@ public class WhereAmICommand extends Command {
         String proxyId = JBridgeWaterdogPE.getInstance().getServiceInfo().getGroupAndId();
 
         if (!sender.isPlayer()) {
-            sender.sendMessage(Color.GOLD + git "You are connected to proxy " + proxyId);
+            sender.sendMessage(Color.GOLD + "You are connected to proxy " + proxyId);
             return true;
         }
 
