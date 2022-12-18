@@ -105,6 +105,18 @@ service: #configuration of your service
     <summary>Maven</summary>
 
 ```xml
+	<repositories>
+		<repository>
+		    <id>jitpack.io</id>
+		    <url>https://jitpack.io</url>
+		</repository>
+	</repositories>
+  
+	<dependency>
+	    <groupId>com.github.Josscoder</groupId>
+	    <artifactId>JBridge</artifactId>
+	    <version>Tag</version>
+	</dependency>  
 ```
 </details>
 
@@ -112,6 +124,16 @@ service: #configuration of your service
     <summary>Gradle</summary>
 
 ```gradle
+	allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+  
+	dependencies {
+	        implementation 'com.github.Josscoder:JBridge:Tag'
+	}  
 ```
 </details>
 
