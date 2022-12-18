@@ -55,7 +55,7 @@ As I mentioned before, jbridge can manage services by groups, you can see more a
 ![](https://i.imgur.com/rAxqlCw.png)
 ![](https://i.imgur.com/Wy5ouEa.png)
 
-- [] Multi-group support
+- [ ] Multi-group support
 
 ## Download and setup 🛒
 
