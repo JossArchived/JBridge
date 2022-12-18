@@ -100,18 +100,153 @@ As I mentioned before, jbridge can manage services by groups, you can see more a
     <summary>Register packets</summary>
 
 ```java
+import com.google.common.io.ByteArrayDataInput;
+import com.google.common.io.ByteArrayDataOutput;
+import me.josscoder.jbridge.JBridgeCore;
+import me.josscoder.jbridge.packet.DataPacket;
+import me.josscoder.jbridge.packet.PacketManager;
+
+public class Test {
+    
+    static class HelloWorldPacket extends DataPacket {
+        
+        public String message;
+
+        public HelloWorldPacket() {
+            super((byte) 0x53);
+        }
+
+        @Override
+        public void encode(ByteArrayDataOutput output) {
+            output.writeUTF(message);
+        }
+
+        @Override
+        public void decode(ByteArrayDataInput input) {
+            message = input.readUTF();
+        }
+    }
+
+    public static void main(String[] args) {
+        PacketManager packetManager = JBridgeCore.getInstance().getPacketManager();
+        
+        packetManager.subscribePacket(new HelloWorldPacket());
+    }
+}
 ```
 </details>
 <details>
     <summary>Register PacketHandlers</summary>
 
 ```java
+import com.google.common.io.ByteArrayDataInput;
+import com.google.common.io.ByteArrayDataOutput;
+import me.josscoder.jbridge.JBridgeCore;
+import me.josscoder.jbridge.packet.DataPacket;
+import me.josscoder.jbridge.packet.PacketHandler;
+import me.josscoder.jbridge.packet.PacketManager;
+
+public class Test {
+
+  static class HelloWorldPacket extends DataPacket {
+
+    public String message;
+
+    public HelloWorldPacket() {
+      super((byte) 0x53);
+    }
+
+    @Override
+    public void encode(ByteArrayDataOutput output) {
+      output.writeUTF(message);
+    }
+
+    @Override
+    public void decode(ByteArrayDataInput input) {
+      message = input.readUTF();
+    }
+  }
+
+  public static void main(String[] args) {
+    PacketManager packetManager = JBridgeCore.getInstance().getPacketManager();
+
+    packetManager.subscribePacket(new HelloWorldPacket());
+
+    packetManager.addPacketHandler(new PacketHandler() {
+      @Override
+      public void onSend(DataPacket packet) {
+        if (packet instanceof HelloWorldPacket) {
+          System.out.println("Sending hello world message!!");
+        }
+      }
+
+      @Override
+      public void onReceive(DataPacket packet) {
+        if (packet instanceof HelloWorldPacket) {
+          System.out.println(((HelloWorldPacket) packet).message);
+        }
+      }
+    });
+  }
+}
+
 ```
 </details>
 <details>
-    <summary>Using ServiceHandler</summary>
+    <summary>Using AsyncPacket</summary>
 
 ```java
+import com.google.common.io.ByteArrayDataInput;
+import com.google.common.io.ByteArrayDataOutput;
+import me.josscoder.jbridge.JBridgeCore;
+import me.josscoder.jbridge.packet.AsyncPacket;
+import me.josscoder.jbridge.packet.DataPacket;
+import me.josscoder.jbridge.packet.PacketHandler;
+import me.josscoder.jbridge.packet.PacketManager;
+
+public class Test {
+    
+    static class HelloWorldPacket extends DataPacket implements AsyncPacket {
+        
+        public String message;
+
+        public HelloWorldPacket() {
+            super((byte) 0x53);
+        }
+
+        @Override
+        public void encode(ByteArrayDataOutput output) {
+            output.writeUTF(message);
+        }
+
+        @Override
+        public void decode(ByteArrayDataInput input) {
+            message = input.readUTF();
+        }
+    }
+
+    public static void main(String[] args) {
+        PacketManager packetManager = JBridgeCore.getInstance().getPacketManager();
+        
+        packetManager.subscribePacket(new HelloWorldPacket());
+        
+        packetManager.addPacketHandler(new PacketHandler() {
+            @Override
+            public void onSend(DataPacket packet) {
+                if (packet instanceof HelloWorldPacket) {
+                    System.out.println("Sending hello world message!!");
+                }
+            }
+
+            @Override
+            public void onReceive(DataPacket packet) {
+                if (packet instanceof HelloWorldPacket) {
+                    System.out.println("HI!! receiving async packet " + ((HelloWorldPacket) packet).message);
+                }
+            }
+        });
+    }
+}
 ```
 </details>
 
