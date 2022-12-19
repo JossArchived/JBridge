@@ -39,12 +39,24 @@ public class PacketManager {
 
     public void subscribePacket(DataPacket ...packets) {
         Arrays.stream(packets).forEach(packet -> {
-            registeredPackets.putIfAbsent(packet.getPid(), packet.getClass());
-
             JBridgeCore core = JBridgeCore.getInstance();
-            if (core.isDebug()) {
-                core.getLogger().debug(String.format("DataPacket %s subscribed!", packet.getClass().getName()));
+
+            if (!registeredPackets.containsKey(packet.getPid())) {
+                registeredPackets.put(packet.getPid(), packet.getClass());
+
+                if (core.isDebug()) {
+                    core.getLogger().debug(String.format("DataPacket \"%s:%s\" has subscribed!",
+                            packet.getPid(),
+                            packet.getClass().getSimpleName()
+                    ));
+                }
+
+                return;
             }
+
+            core.getLogger().warn(String.format("DataPacket \"%s\" is already subscribed!",
+                    packet.getPid()
+            ));
         });
     }
 
@@ -73,7 +85,7 @@ public class PacketManager {
 
         if (packet == null) {
             if (core.isDebug()) {
-                core.getLogger().debug(String.format("DataPacket %s is not subscribed!", pid));
+                core.getLogger().debug(String.format("DataPacket \"%s\" is not subscribed!", pid));
             }
             return;
         }
@@ -89,9 +101,12 @@ public class PacketManager {
             }
         });
 
-        if (core.isDebug()) {
-            core.getLogger().debug(String.format("DataPacket %s decoded and handled!", packet.getClass().getName()));
-        }
+        if (!core.isDebug()) return;
+
+        core.getLogger().debug(String.format("DataPacket \"%s:%s\" was decoded and handled!",
+                packet.getPid(),
+                packet.getClass().getSimpleName()
+        ));
     }
 
     public void handlePacketEncoding(DataPacket packet) {
@@ -106,9 +121,12 @@ public class PacketManager {
             jedis.publish(JBridgeCore.PACKET_CHANNEL, output.toByteArray());
             packetHandlers.forEach(packetHandler -> packetHandler.onSend(packet));
 
-            if (core.isDebug()) {
-                core.getLogger().debug(String.format("DataPacket %s encoded and sent!", packet.getClass().getName()));
-            }
+            if (!core.isDebug()) return;
+
+            core.getLogger().debug(String.format("DataPacket \"%s:%s\" was encoded and sent!",
+                    packet.getPid(),
+                    packet.getClass().getSimpleName()
+            ));
         }
     }
 

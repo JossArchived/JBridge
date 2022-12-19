@@ -73,19 +73,19 @@ public class JBridgeCore {
 
                         @Override
                         public void onSubscribe(byte[] channel, int subscribedChannels) {
-                            if (debug) logger.info("JBridge packet pubSub Started!");
+                            logger.info("JBridge packet pubSub Started!");
                         }
 
                         @Override
                         public void onUnsubscribe(byte[] channel, int subscribedChannels) {
-                            if (debug) logger.info("JBridge packet pubSub Stopped!");
+                            logger.info("JBridge packet pubSub Stopped!");
                         }
                     }, PACKET_CHANNEL);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
                 try {
-                    if (debug) logger.info("Sleeping for 1 second before reconnecting");
+                    logger.info("Sleeping for 1 second before reconnecting");
                     Thread.sleep(1000);
                 } catch (InterruptedException ignored) {}
             }

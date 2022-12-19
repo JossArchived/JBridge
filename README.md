@@ -52,8 +52,8 @@ As I mentioned before, jbridge can manage services by groups, you can see more a
 
 - [x] Automatic server registration at WaterdogPE without the need to specify servers manually in the Waterdog config.
 
-![](https://i.imgur.com/rAxqlCw.png)
-![](https://i.imgur.com/Wy5ouEa.png)
+![](https://i.imgur.com/Tt0j4w7.png)
+![](https://i.imgur.com/gpkr0M6.png)
 
 - [ ] Multi-group support 
 
