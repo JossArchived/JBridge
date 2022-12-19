@@ -101,41 +101,61 @@ service: #configuration of your service
 ## For developers 🧑‍💻
 ### Add JBridge to your project
 
-<details>
-    <summary>Maven</summary>
+[![](https://jitpack.io/v/Josscoder/JBridge.svg)](https://jitpack.io/#Josscoder/JBridge)
 
+### Common
 ```xml
-	<repositories>
-		<repository>
-		    <id>jitpack.io</id>
-		    <url>https://jitpack.io</url>
-		</repository>
-	</repositories>
-  
-	<dependency>
-	    <groupId>com.github.Josscoder</groupId>
-	    <artifactId>JBridge</artifactId>
-	    <version>Tag</version>
-	</dependency>  
-```
-</details>
+<repositories>
+  <repository>
+    <id>jitpack.io</id>
+    <url>https://jitpack.io</url>
+  </repository>
+</repositories>
 
-<details>
-    <summary>Gradle</summary>
-
-```gradle
-	allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
-	}
-  
-	dependencies {
-	        implementation 'com.github.Josscoder:JBridge:Tag'
-	}  
+<dependencies>
+    <dependency>
+        <groupId>com.github.Josscoder.JBridge</groupId>
+        <artifactId>jbridge-common</artifactId>
+        <version>TAG</version>
+    </dependency>
+</dependencies>
 ```
-</details>
+
+### Nukkit
+```xml
+<repositories>
+  <repository>
+    <id>jitpack.io</id>
+    <url>https://jitpack.io</url>
+  </repository>
+</repositories>
+
+<dependencies>
+    <dependency>
+        <groupId>com.github.Josscoder.JBridge</groupId>
+        <artifactId>jbridge-nukkit</artifactId>
+        <version>TAG</version>
+    </dependency>
+</dependencies>
+```
+
+### WaterdogPE
+```xml
+<repositories>
+  <repository>
+    <id>jitpack.io</id>
+    <url>https://jitpack.io</url>
+  </repository>
+</repositories>
+
+<dependencies>
+    <dependency>
+        <groupId>com.github.Josscoder.JBridge</groupId>
+        <artifactId>jbridge-waterdogpe</artifactId>
+        <version>TAG</version>
+    </dependency>
+</dependencies>
+```
 
 ### Code examples
 
