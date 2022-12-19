@@ -5,17 +5,14 @@ import dev.waterdog.waterdogpe.logger.Color;
 import dev.waterdog.waterdogpe.network.serverinfo.ServerInfo;
 import dev.waterdog.waterdogpe.player.ProxiedPlayer;
 import dev.waterdog.waterdogpe.utils.types.IReconnectHandler;
-import me.josscoder.jbridge.JBridgeCore;
 import me.josscoder.jbridge.waterdogpe.lobby.JBridgeLobby;
 
 public class ReconnectHandler implements IReconnectHandler {
     @Override
     public ServerInfo getFallbackServer(ProxiedPlayer player, ServerInfo oldServer, String kickMessage) {
-        String proxyId = JBridgeCore.getInstance().getCurrentServiceInfo().getGroupAndShortId();
-
-        player.sendMessage("§8Unexpected? Report this §7(" + proxyId + "-" + oldServer.getServerName() + "): §c" + kickMessage +
+        player.sendMessage("§8Unexpected? Report this §7(" + oldServer.getServerName() + "): §c" + kickMessage +
                 "\n" +
-                Color.GREEN + "We will connect you to a hub shortly..."
+                Color.GREEN + "We will connect you to a lobby shortly..."
         );
 
         String balancedLobbyService = JBridgeLobby.getInstance().getBalancedLobbyServiceShortId();
