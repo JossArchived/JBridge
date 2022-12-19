@@ -19,9 +19,6 @@ public class JBridgeNukkit extends PluginBase {
     @Getter
     private static JBridgeNukkit instance;
 
-    @Getter
-    private ServiceInfo serviceInfo;
-
     @Override
     public void onLoad() {
         instance = this;
@@ -46,7 +43,7 @@ public class JBridgeNukkit extends PluginBase {
 
         String finalAddress = (branch.startsWith("dev") ? "127.0.0.1" : address);
 
-        serviceInfo = new ServiceInfo(
+        ServiceInfo serviceInfo = new ServiceInfo(
                 config.getString("service.id", UUID.randomUUID().toString().substring(0, 8)),
                 finalAddress + ":" + getServer().getPort(),
                 config.getString("service.group", "hub"),
@@ -54,6 +51,7 @@ public class JBridgeNukkit extends PluginBase {
                 branch,
                 getServer().getMaxPlayers()
         );
+        jBridgeCore.setCurrentServiceInfo(serviceInfo);
 
         registerCommands();
         getServer().getScheduler().scheduleRepeatingTask(new ServicePingTask(), 20, true);

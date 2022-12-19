@@ -22,9 +22,6 @@ public class JBridgeWaterdogPE extends Plugin {
     @Getter
     private static JBridgeWaterdogPE instance;
 
-    @Getter
-    private ServiceInfo serviceInfo;
-
     @Override
     public void onStartup() {
         instance = this;
@@ -44,7 +41,7 @@ public class JBridgeWaterdogPE extends Plugin {
                 new WaterdogPELogger()
         );
 
-        serviceInfo = new ServiceInfo(
+        ServiceInfo serviceInfo = new ServiceInfo(
                 config.getString("service.id", UUID.randomUUID().toString().substring(0, 8)),
                 "",
                 config.getString("service.group", "proxy"),
@@ -52,6 +49,7 @@ public class JBridgeWaterdogPE extends Plugin {
                 config.getString("service.branch", "dev"),
                 -1
         );
+        jBridgeCore.setCurrentServiceInfo(serviceInfo);
 
         handleCommands();
         subscribeEvents();

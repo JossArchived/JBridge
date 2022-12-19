@@ -39,6 +39,8 @@ public class JBridgeCore {
     private PacketManager packetManager;
     private ServiceHandler serviceHandler;
 
+    private ServiceInfo currentServiceInfo;
+
     private final Cache<String, ServiceInfo> serviceInfoCache = CacheBuilder.newBuilder()
             .expireAfterWrite(10, TimeUnit.SECONDS)
             .build();
@@ -92,6 +94,10 @@ public class JBridgeCore {
         });
 
         serviceHandler = new ServiceHandler();
+    }
+
+    public ServiceInfo getCurrentServiceInfo() {
+        return currentServiceInfo == null ? ServiceInfo.empty() : currentServiceInfo;
     }
 
     public void shutdown() {

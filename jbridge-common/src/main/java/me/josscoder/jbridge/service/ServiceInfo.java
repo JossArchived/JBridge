@@ -48,4 +48,8 @@ public class ServiceInfo {
     public boolean isFull() {
         return getPlayersOnline() >= maxPlayers;
     }
+
+    public static ServiceInfo empty() {
+        return new ServiceInfo("?", "?", "?", "?", "?", 0);
+    }
 }

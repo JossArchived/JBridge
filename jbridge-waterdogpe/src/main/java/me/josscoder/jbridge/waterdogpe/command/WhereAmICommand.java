@@ -8,7 +8,6 @@ import dev.waterdog.waterdogpe.network.serverinfo.ServerInfo;
 import dev.waterdog.waterdogpe.player.ProxiedPlayer;
 import me.josscoder.jbridge.JBridgeCore;
 import me.josscoder.jbridge.service.ServiceInfo;
-import me.josscoder.jbridge.waterdogpe.JBridgeWaterdogPE;
 
 public class WhereAmICommand extends Command {
 
@@ -22,7 +21,7 @@ public class WhereAmICommand extends Command {
 
     @Override
     public boolean onExecute(CommandSender sender, String alias, String[] args) {
-        String proxyId = JBridgeWaterdogPE.getInstance().getServiceInfo().getGroupAndId();
+        String proxyId = JBridgeCore.getInstance().getCurrentServiceInfo().getGroupAndId();
 
         if (!sender.isPlayer()) {
             sender.sendMessage(Color.GOLD + "You are connected to proxy " + proxyId);

@@ -64,6 +64,28 @@ public class PacketManager {
         Arrays.stream(packets).forEach(packet -> CompletableFuture.runAsync(() -> handlePacketEncoding(packet)));
     }
 
+    public void handlePacketEncoding(DataPacket packet) {
+        JBridgeCore core = JBridgeCore.getInstance();
+        packet.setSender(core.getCurrentServiceInfo().getShortId());
+
+        try (Jedis jedis = core.getJedisPool().getResource()) {
+            ByteArrayDataOutput output = ByteStreams.newDataOutput();
+
+            output.writeByte(packet.getPid());
+            packet.mainEncode(output);
+
+            jedis.publish(JBridgeCore.PACKET_CHANNEL, output.toByteArray());
+            packetHandlers.forEach(packetHandler -> packetHandler.onSend(packet));
+
+            if (!core.isDebug()) return;
+
+            core.getLogger().debug(String.format("DataPacket \"%s:%s\" was encoded and sent!",
+                    packet.getPid(),
+                    packet.getClass().getSimpleName()
+            ));
+        }
+    }
+
     public DataPacket getPacket(byte pid) {
         Class<? extends DataPacket> classInstance = registeredPackets.get(pid);
         if (classInstance == null) return null;
@@ -90,7 +112,7 @@ public class PacketManager {
             return;
         }
 
-        packet.decode(input);
+        packet.mainDecode(input);
         packetHandlers.forEach(packetHandler -> {
             Runnable runnable = () -> packetHandler.onReceive(packet);
 
@@ -107,27 +129,6 @@ public class PacketManager {
                 packet.getPid(),
                 packet.getClass().getSimpleName()
         ));
-    }
-
-    public void handlePacketEncoding(DataPacket packet) {
-        JBridgeCore core = JBridgeCore.getInstance();
-
-        try (Jedis jedis = core.getJedisPool().getResource()) {
-            ByteArrayDataOutput output = ByteStreams.newDataOutput();
-
-            output.writeByte(packet.getPid());
-            packet.encode(output);
-
-            jedis.publish(JBridgeCore.PACKET_CHANNEL, output.toByteArray());
-            packetHandlers.forEach(packetHandler -> packetHandler.onSend(packet));
-
-            if (!core.isDebug()) return;
-
-            core.getLogger().debug(String.format("DataPacket \"%s:%s\" was encoded and sent!",
-                    packet.getPid(),
-                    packet.getClass().getSimpleName()
-            ));
-        }
     }
 
     public void addPacketHandler(PacketHandler packetHandler) {
