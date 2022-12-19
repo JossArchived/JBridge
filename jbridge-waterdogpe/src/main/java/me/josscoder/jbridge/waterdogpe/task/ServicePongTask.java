@@ -25,7 +25,7 @@ public class ServicePongTask implements Runnable {
         proxy.getServers().forEach(bedrockServer -> {
             if (cacheServers.containsKey(bedrockServer.getServerName())) {
                 ServiceInfo service = cacheServers.get(bedrockServer.getServerName());
-                String address = bedrockServer.getAddress().getHostName() + ":" + bedrockServer.getAddress().getPort();
+                String address = bedrockServer.getAddress().getHostString() + ":" + bedrockServer.getAddress().getPort();
 
                 if (!service.getAddress().equalsIgnoreCase(address)) {
                     bedrockServer.getPlayers().forEach(player ->
