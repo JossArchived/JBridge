@@ -2,6 +2,7 @@ package me.josscoder.jbridge.service;
 
 import me.josscoder.jbridge.JBridgeCore;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -84,7 +85,19 @@ public class ServiceHandler {
         FILL
     }
 
-    public ServiceInfo getServiceFromListBySortMode(List<ServiceInfo> serviceList, SortMode sortMode) {
+    public ServiceInfo getSortedServiceFromGroups(List<String> groups, SortMode sortMode) {
+        List<ServiceInfo> serviceList = new ArrayList<>();
+
+        groups.forEach(group -> serviceList.addAll(getGroupServices(group)));
+
+        return getSortedServiceFromList(serviceList, sortMode);
+    }
+
+    public ServiceInfo getSortedServiceFromGroup(String group, SortMode sortMode) {
+        return getSortedServiceFromList(getGroupServices(group), sortMode);
+    }
+
+    public ServiceInfo getSortedServiceFromList(List<ServiceInfo> serviceList, SortMode sortMode) {
         ServiceInfo serviceInfo = null;
 
         switch (sortMode) {

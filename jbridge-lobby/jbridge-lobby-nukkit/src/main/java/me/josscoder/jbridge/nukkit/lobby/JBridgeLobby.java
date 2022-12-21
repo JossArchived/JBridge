@@ -44,7 +44,7 @@ public class JBridgeLobby extends PluginBase {
     public ServiceInfo getBalancedLobbyService() {
         return JBridgeCore.getInstance()
                 .getServiceHandler()
-                .getServiceFromListBySortMode(getLobbyServices(), ServiceHandler.SortMode.LOWEST);
+                .getSortedServiceFromList(getLobbyServices(), ServiceHandler.SortMode.LOWEST);
     }
 
     public String getBalancedLobbyServiceShortId() {
