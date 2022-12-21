@@ -8,7 +8,7 @@ JBridge facilitates communication in minecraft bedrock networks, between Nukkit 
 - [x] Server management system available for both clients
 
 
-  ![](https://i.imgur.com/3BmcS9L.png)
+  ![](https://i.imgur.com/ymmYZm9.png)
   Example: This code is used in the same way for jbridge-lobby-nukkit and jbridge-lobby-waterdogpe.
 
 as the first parameter a list with the group of services for the lobby and as the second parameter the sort mode, in this case LOWEST, the algorithm will choose the lobby server with the lowest number of players to balance the lobby servers
