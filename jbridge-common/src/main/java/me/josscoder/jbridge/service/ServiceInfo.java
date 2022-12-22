@@ -1,5 +1,6 @@
 package me.josscoder.jbridge.service;
 
+import com.google.gson.Gson;
 import lombok.Data;
 
 import java.util.HashSet;
@@ -10,6 +11,7 @@ public class ServiceInfo {
 
     private final String id, address, group, region, branch;
     private final int maxPlayers;
+    private Gson customData;
 
     private final Set<String> players = new HashSet<>();
 
@@ -18,7 +20,7 @@ public class ServiceInfo {
     }
 
     public String getGroupAndId() {
-        return String.format("%s-%s", group, id);
+        return "%s-%s".formatted(group, id);
     }
 
     public String getRegionGroupAndId() {
@@ -26,7 +28,7 @@ public class ServiceInfo {
     }
 
     public String getGroupAndShortId() {
-        return String.format("%s-%s", group, getShortId());
+        return "%s-%s".formatted(group, getShortId());
     }
 
     public String getRegionGroupAndShortId() {

@@ -28,10 +28,10 @@ public class PacketManager {
 
             @Override
             public void onReceive(DataPacket packet) {
-                if (!(packet instanceof ServiceCacheUpdatePacket)) return;
+                if (!(packet instanceof ServiceCacheUpdatePacket updatePacket)) return;
 
                 JBridgeCore core = JBridgeCore.getInstance();
-                ServiceInfo cache = core.getGson().fromJson(((ServiceCacheUpdatePacket) packet).cache, ServiceInfo.class);
+                ServiceInfo cache = core.getGson().fromJson(updatePacket.cache, ServiceInfo.class);
                 core.getServiceInfoCache().put(cache.getShortId(), cache);
             }
         });
@@ -45,7 +45,7 @@ public class PacketManager {
                 registeredPackets.put(packet.getPid(), packet.getClass());
 
                 if (core.isDebug()) {
-                    core.getLogger().debug(String.format("DataPacket \"%s:%s\" has subscribed!",
+                    core.getLogger().debug("DataPacket \"%s:%s\" has subscribed!".formatted(
                             packet.getPid(),
                             packet.getClass().getSimpleName()
                     ));
@@ -54,9 +54,7 @@ public class PacketManager {
                 return;
             }
 
-            core.getLogger().warn(String.format("DataPacket \"%s\" is already subscribed!",
-                    packet.getPid()
-            ));
+            core.getLogger().warn("DataPacket \"%s\" is already subscribed!".formatted(packet.getPid()));
         });
     }
 
@@ -79,7 +77,7 @@ public class PacketManager {
 
             if (!core.isDebug()) return;
 
-            core.getLogger().debug(String.format("DataPacket \"%s:%s\" was encoded and sent!",
+            core.getLogger().debug("DataPacket \"%s:%s\" was encoded and sent!".formatted(
                     packet.getPid(),
                     packet.getClass().getSimpleName()
             ));
@@ -107,7 +105,7 @@ public class PacketManager {
 
         if (packet == null) {
             if (core.isDebug()) {
-                core.getLogger().debug(String.format("DataPacket \"%s\" is not subscribed!", pid));
+                core.getLogger().debug("DataPacket \"%s\" is not subscribed!".formatted(pid));
             }
             return;
         }
@@ -125,7 +123,7 @@ public class PacketManager {
 
         if (!core.isDebug()) return;
 
-        core.getLogger().debug(String.format("DataPacket \"%s:%s\" was decoded and handled!",
+        core.getLogger().debug("DataPacket \"%s:%s\" was decoded and handled!".formatted(
                 packet.getPid(),
                 packet.getClass().getSimpleName()
         ));

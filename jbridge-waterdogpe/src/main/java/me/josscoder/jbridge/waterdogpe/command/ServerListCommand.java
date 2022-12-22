@@ -64,7 +64,7 @@ public class ServerListCommand extends Command {
 
         ServiceInfo service = serviceHandler.getService(serverInfo.getServerName());
 
-        return String.format("§3[%s] §c%s §a%s-%s %s(%s/%s): §f%s",
+        return "§3[%s] §c%s §a%s-%s %s(%s/%s): §f%s".formatted(
                 serverInfo.getServerName(),
                 service == null ? "?" : service.getGroup().toUpperCase(),
                 service == null ? "?" : service.getRegion().toUpperCase(),

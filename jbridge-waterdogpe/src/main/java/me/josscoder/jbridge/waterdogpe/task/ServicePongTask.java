@@ -39,7 +39,7 @@ public class ServicePongTask implements Runnable {
                         proxiedPlayer.disconnect("Server timed out, broken connection?")
                 );
                 proxy.removeServerInfo(bedrockServer.getServerName());
-                logger.info(String.format("Removed %s due to timeout...", bedrockServer.getServerName()));
+                logger.info("Removed %s due to timeout...".formatted(bedrockServer.getServerName()));
             }
         });
 
@@ -63,19 +63,17 @@ public class ServicePongTask implements Runnable {
 
         if (registered) {
             switch (addType) {
-                case NORMAL:
-                    logger.info(String.format("Added %s (%s:%s)", service.getRegionGroupAndShortId(),
-                            newAddress[0], newAddress[1])
-                    );
-                    break;
-                case UPDATE_ADDRESS:
-                    logger.warn(String.format("Server IP for \"%s\" updated!", service.getRegionGroupAndShortId()));
-                    break;
+                case NORMAL -> logger.info("Added %s (%s:%s)".formatted(service.getRegionGroupAndShortId(),
+                        newAddress[0], newAddress[1])
+                );
+                case UPDATE_ADDRESS -> logger.warn("Server IP for \"%s\" updated!".formatted(
+                        service.getRegionGroupAndShortId()
+                ));
             }
         } else {
-            logger.warn(String.format("Could not add server %s because it already exists",
-                    service.getRegionGroupAndShortId())
-            );
+            logger.warn("Could not add server %s because it already exists".formatted(
+                    service.getRegionGroupAndShortId()
+            ));
         }
     }
 }

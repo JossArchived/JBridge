@@ -98,27 +98,17 @@ public class ServiceHandler {
     }
 
     public ServiceInfo getSortedServiceFromList(List<ServiceInfo> serviceList, SortMode sortMode) {
-        ServiceInfo serviceInfo = null;
-
-        switch (sortMode) {
-            case RANDOM:
-                serviceInfo = serviceList.stream()
-                        .findAny()
-                        .orElse(null);
-                break;
-            case LOWEST:
-                serviceInfo = serviceList.stream()
-                        .min(Comparator.comparingInt(ServiceInfo::getPlayersOnline))
-                        .orElse(null);
-                break;
-            case FILL:
-                serviceInfo = serviceList.stream()
-                        .filter(service -> !service.isFull())
-                        .max(Comparator.comparingInt(ServiceInfo::getPlayersOnline))
-                        .orElse(null);
-                break;
-        }
-
-        return serviceInfo;
+        return switch (sortMode) {
+            case RANDOM -> serviceList.stream()
+                    .findAny()
+                    .orElse(null);
+            case LOWEST -> serviceList.stream()
+                    .min(Comparator.comparingInt(ServiceInfo::getPlayersOnline))
+                    .orElse(null);
+            case FILL -> serviceList.stream()
+                    .filter(service -> !service.isFull())
+                    .max(Comparator.comparingInt(ServiceInfo::getPlayersOnline))
+                    .orElse(null);
+        };
     }
 }
