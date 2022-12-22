@@ -74,8 +74,8 @@ public class ServicePongTask implements Runnable {
             }
         } else {
             logger.warn(String.format("Could not add server %s because it already exists",
-                    service.getRegionGroupAndShortId())
-            );
+                    service.getRegionGroupAndShortId()
+            ));
         }
     }
 }

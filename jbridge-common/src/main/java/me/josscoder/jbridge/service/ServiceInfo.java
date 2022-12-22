@@ -1,5 +1,6 @@
 package me.josscoder.jbridge.service;
 
+import com.google.gson.Gson;
 import lombok.Data;
 
 import java.util.HashSet;
@@ -10,6 +11,7 @@ public class ServiceInfo {
 
     private final String id, address, group, region, branch;
     private final int maxPlayers;
+    private Gson customData;
 
     private final Set<String> players = new HashSet<>();
 
