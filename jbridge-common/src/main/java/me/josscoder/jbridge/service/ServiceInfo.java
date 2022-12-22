@@ -1,17 +1,22 @@
 package me.josscoder.jbridge.service;
 
-import com.google.gson.Gson;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import lombok.Data;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 @Data
 public class ServiceInfo {
 
     private final String id, address, group, region, branch;
     private final int maxPlayers;
-    private Gson customData;
+    private final Cache<String, Object> customData = CacheBuilder.newBuilder()
+            .expireAfterWrite(10, TimeUnit.SECONDS)
+            .build();
 
     private final Set<String> players = new HashSet<>();
 
