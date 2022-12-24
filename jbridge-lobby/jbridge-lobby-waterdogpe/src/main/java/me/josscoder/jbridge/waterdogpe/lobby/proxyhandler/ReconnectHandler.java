@@ -15,7 +15,7 @@ public class ReconnectHandler implements IReconnectHandler {
                 Color.GREEN + "We will connect you to a lobby shortly..."
         );
 
-        String balancedLobbyService = JBridgeLobby.getInstance().getBalancedLobbyServiceShortId();
+        String balancedLobbyService = JBridgeLobby.getInstance().getSortedLobbyServiceShortId();
         return ProxyServer.getInstance().getServerInfo(balancedLobbyService);
     }
 }

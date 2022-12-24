@@ -10,13 +10,14 @@ import me.josscoder.jbridge.service.ServiceInfo;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public class JBridgeLobby extends PluginBase {
 
     @Getter
     private static JBridgeLobby instance;
 
-    @Getter
-    private List<String> lobbyIds;
+    private List<String> defaultGroups;
+    private ServiceHandler.SortMode sortMode;
 
     @Override
     public void onLoad() {
@@ -27,28 +28,29 @@ public class JBridgeLobby extends PluginBase {
     public void onEnable() {
         saveDefaultConfig();
 
-        lobbyIds = getConfig().getStringList("lobby-ids");
+        defaultGroups = getConfig().getStringList("default-groups");
+        sortMode = ServiceHandler.SortMode.valueOf(getConfig().getString("sort-mode"));
 
         getServer().getCommandMap().register("lobby", new LobbyCommand());
     }
 
     public List<ServiceInfo> getLobbyServices() {
         List<ServiceInfo> services = new ArrayList<>();
-        lobbyIds.forEach(lobbyId ->
-                services.addAll(JBridgeCore.getInstance().getServiceHandler().getGroupServices(lobbyId))
-        );
+        defaultGroups.forEach(defaultGroup -> services.addAll(
+                JBridgeCore.getInstance().getServiceHandler().getGroupServices(defaultGroup)
+        ));
 
         return services;
     }
 
-    public ServiceInfo getBalancedLobbyService() {
+    public ServiceInfo getSortedLobbyService() {
         return JBridgeCore.getInstance()
                 .getServiceHandler()
-                .getSortedServiceFromList(getLobbyServices(), ServiceHandler.SortMode.LOWEST);
+                .getSortedServiceFromList(getLobbyServices(), sortMode);
     }
 
-    public String getBalancedLobbyServiceShortId() {
-        ServiceInfo serviceInfo = getBalancedLobbyService();
+    public String geSortedLobbyServiceShortId() {
+        ServiceInfo serviceInfo = getSortedLobbyService();
         return serviceInfo == null ? "" : serviceInfo.getShortId();
     }
 }

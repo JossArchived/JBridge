@@ -22,7 +22,7 @@ public class LobbyCommand extends Command {
         if (!sender.isPlayer()) return false;
         Player player = (Player) sender;
 
-        String balancedLobbyService = JBridgeLobby.getInstance().getBalancedLobbyServiceShortId();
+        String balancedLobbyService = JBridgeLobby.getInstance().geSortedLobbyServiceShortId();
         if (balancedLobbyService.isEmpty()) {
             player.sendMessage(TextFormat.RED + "No rotating lobby servers!");
             return false;
