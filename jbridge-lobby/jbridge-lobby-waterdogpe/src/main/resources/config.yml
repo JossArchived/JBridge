@@ -1,4 +1,4 @@
-default-groups:
+lobby-groups:
   - hub
   - lobby
   - hub-main

@@ -22,13 +22,13 @@ public class LobbyCommand extends Command {
         if (!sender.isPlayer()) return false;
         Player player = (Player) sender;
 
-        String balancedLobbyService = JBridgeLobby.getInstance().geSortedLobbyServiceShortId();
-        if (balancedLobbyService.isEmpty()) {
+        String sortedLobbyService = JBridgeLobby.getInstance().geSortedLobbyServiceShortId();
+        if (sortedLobbyService.isEmpty()) {
             player.sendMessage(TextFormat.RED + "No rotating lobby servers!");
             return false;
         }
 
-        JBridgeNukkit.getInstance().transferPlayer(player, balancedLobbyService);
+        JBridgeNukkit.getInstance().transferPlayer(player, sortedLobbyService);
         return true;
     }
 }

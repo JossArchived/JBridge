@@ -9,7 +9,7 @@ import me.josscoder.jbridge.waterdogpe.lobby.JBridgeLobby;
 public class JoinHandler implements IJoinHandler {
     @Override
     public ServerInfo determineServer(ProxiedPlayer player) {
-        String balancedLobbyService = JBridgeLobby.getInstance().getSortedLobbyServiceShortId();
-        return ProxyServer.getInstance().getServerInfo(balancedLobbyService);
+        String sortedLobbyService = JBridgeLobby.getInstance().getSortedLobbyServiceShortId();
+        return ProxyServer.getInstance().getServerInfo(sortedLobbyService);
     }
 }

@@ -48,7 +48,7 @@ public class ServerListCommand extends Command {
             builder.append(buildServerList(serverInfo)).append("\n").append(Color.RESET);
         }
 
-        builder.append("§7Total online players: ")
+        builder.append(Color.GRAY + "Total online players: ")
                 .append(sender.getProxy().getPlayers().size())
                 .append("/")
                 .append(serviceHandler.getMaxPlayers());
@@ -69,7 +69,7 @@ public class ServerListCommand extends Command {
                 service == null ? "?" : service.getGroup().toUpperCase(),
                 service == null ? "?" : service.getRegion().toUpperCase(),
                 service == null ? "?" : service.getBranch().toUpperCase(),
-                service == null || !service.isFull() ? "§b" : "§9",
+                service == null || !service.isFull() ? "§b" : "§5",
                 serverInfo.getPlayers().size(),
                 service == null ? "?" : service.getMaxPlayers(),
                 joiner

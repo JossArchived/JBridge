@@ -17,7 +17,7 @@ public class JBridgeLobby extends Plugin {
     @Getter
     private static JBridgeLobby instance;
 
-    private List<String> defaultGroups;
+    private List<String> lobbyGroups;
     private ServiceHandler.SortMode sortMode;
 
     @Override
@@ -29,7 +29,7 @@ public class JBridgeLobby extends Plugin {
     public void onEnable() {
         loadConfig();
 
-        defaultGroups = getConfig().getStringList("default-groups");
+        lobbyGroups = getConfig().getStringList("lobby-groups");
         sortMode = ServiceHandler.SortMode.valueOf(getConfig().getString("sort-mode"));
 
         getProxy().setJoinHandler(new JoinHandler());
@@ -38,8 +38,8 @@ public class JBridgeLobby extends Plugin {
 
     public List<ServiceInfo> getLobbyServices() {
         List<ServiceInfo> services = new ArrayList<>();
-        defaultGroups.forEach(defaultGroup -> services.addAll(
-                JBridgeCore.getInstance().getServiceHandler().getGroupServices(defaultGroup)
+        lobbyGroups.forEach(lobbyGroup -> services.addAll(
+                JBridgeCore.getInstance().getServiceHandler().getGroupServices(lobbyGroup)
         ));
 
         return services;
