@@ -2,5 +2,5 @@ name: JBridgeLobby
 main: me.josscoder.jbridge.waterdogpe.lobby.JBridgeLobby
 version: ${project.version}
 author: Josscoder
-softdepend:
-  - JBridge
+depend: ["JBridge"]
+loadbefore: ["JBridge"]

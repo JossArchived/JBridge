@@ -3,5 +3,5 @@ main: me.josscoder.jbridge.nukkit.lobby.JBridgeLobby
 api: 1.0.0
 version: ${project.version}
 author: Josscoder
-softdepend:
-  - JBridge
+depend: ["JBridge"]
+loadbefore: ["JBridge"]
