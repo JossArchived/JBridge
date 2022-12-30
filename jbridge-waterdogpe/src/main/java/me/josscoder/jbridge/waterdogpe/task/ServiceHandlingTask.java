@@ -62,7 +62,6 @@ public class ServiceHandlingTask implements Runnable {
         });
 
         queueRemove.forEach(this::handleRemoveServer);
-
         cacheServers
                 .stream()
                 .filter(service -> proxy.getServerInfo(service.getShortId()) == null)
