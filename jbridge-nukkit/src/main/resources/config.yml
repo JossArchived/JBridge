@@ -10,3 +10,5 @@ service:
   group: "hub"
   region: "us"
   branch: "dev"
+  address: "127.0.0.1"
+  publicAddress: "127.0.0.1"

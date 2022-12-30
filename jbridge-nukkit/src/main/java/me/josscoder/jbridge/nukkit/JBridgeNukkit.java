@@ -9,8 +9,8 @@ import lombok.Getter;
 import me.josscoder.jbridge.JBridgeCore;
 import me.josscoder.jbridge.nukkit.command.TransferCommand;
 import me.josscoder.jbridge.nukkit.command.WhereAmICommand;
+import me.josscoder.jbridge.nukkit.listener.UpdateDataListener;
 import me.josscoder.jbridge.service.ServiceInfo;
-import me.josscoder.jbridge.nukkit.task.ServicePingTask;
 
 import java.util.UUID;
 
@@ -28,9 +28,17 @@ public class JBridgeNukkit extends PluginBase {
     public void onEnable() {
         saveDefaultConfig();
 
+        setupService();
+
+        registerCommands();
+        getServer().getPluginManager().registerEvents(new UpdateDataListener(), this);
+    }
+
+    private void setupService() {
         Config config = getConfig();
 
         JBridgeCore jBridgeCore = new JBridgeCore();
+
         jBridgeCore.boot(config.getString("redis.hostname"),
                 config.getInt("redis.port"),
                 config.getString("redis.password"),
@@ -38,23 +46,29 @@ public class JBridgeNukkit extends PluginBase {
                 new NukkitLogger()
         );
 
+        if (!config.exists("service.id")) {
+            config.set("service.id", UUID.randomUUID().toString().substring(0, 8));
+            config.save();
+        }
+
         String branch = config.getString("service.branch", "dev");
-        String address = config.getString("service.address", getServer().getIp());
+        String address = branch.startsWith("dev")
+                ? "127.0.0.1"
+                : config.getString("service.address", getServer().getIp());
+        String publicAddress = config.getString("service.publicAddress", address);
 
-        String finalAddress = (branch.startsWith("dev") ? "127.0.0.1" : address);
-
-        ServiceInfo serviceInfo = new ServiceInfo(
-                config.getString("service.id", UUID.randomUUID().toString().substring(0, 8)),
-                finalAddress + ":" + getServer().getPort(),
+        ServiceInfo currentServiceInfo = new ServiceInfo(
+                config.getString("service.id"),
+                address + ":" + getServer().getPort(),
+                publicAddress + ":" + getServer().getPort(),
                 config.getString("service.group", "hub"),
                 config.getString("service.region", "us"),
                 branch,
                 getServer().getMaxPlayers()
         );
-        jBridgeCore.setCurrentServiceInfo(serviceInfo);
+        currentServiceInfo.pushAdd();
 
-        registerCommands();
-        getServer().getScheduler().scheduleRepeatingTask(new ServicePingTask(), 20, true);
+        jBridgeCore.setCurrentServiceInfo(currentServiceInfo);
     }
 
     private void registerCommands() {
@@ -63,7 +77,7 @@ public class JBridgeNukkit extends PluginBase {
         map.register("whereami", new WhereAmICommand());
     }
 
-    public void transferPlayer(Player player, String serverName) {
+    public void networkTransfer(Player player, String serverName) {
         TransferPacket packet = new TransferPacket();
         packet.address = serverName;
         packet.port = 0;
@@ -73,6 +87,13 @@ public class JBridgeNukkit extends PluginBase {
 
     @Override
     public void onDisable() {
-        JBridgeCore.getInstance().shutdown();
+        JBridgeCore jBridgeCore = JBridgeCore.getInstance();
+
+        try {
+            jBridgeCore.getCurrentServiceInfo().pushRemove();
+            Thread.sleep(1000);
+        } catch (InterruptedException ignored) {}
+
+        jBridgeCore.shutdown();
     }
 }

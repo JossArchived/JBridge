@@ -39,7 +39,7 @@ public class TransferCommand extends Command {
             return true;
         }
 
-        JBridgeNukkit.getInstance().transferPlayer(player, service.getShortId());
+        JBridgeNukkit.getInstance().networkTransfer(player, service.getShortId());
         return true;
     }
 }

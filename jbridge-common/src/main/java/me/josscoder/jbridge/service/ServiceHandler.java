@@ -2,17 +2,83 @@ package me.josscoder.jbridge.service;
 
 import me.josscoder.jbridge.JBridgeCore;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class ServiceHandler {
 
-    public Map<String, ServiceInfo> getServiceInfoMapCache() {
-        return JBridgeCore.getInstance().getServiceInfoCache().asMap();
+    private static final String HASH_SERVICES = "jbridge-services:%s";
+
+    public Set<ServiceInfo> getServices() {
+        return JBridgeCore.getInstance().execute(jedis -> {
+            Set<ServiceInfo> data = new HashSet<>();
+
+            Set<String> keys = jedis.keys(String.format(HASH_SERVICES, "*"));
+            if (keys.isEmpty()) return new HashSet<>();
+
+            keys.forEach(key -> {
+                Map<String, String> map = jedis.hgetAll(key);
+
+                ServiceInfo serviceInfo = new ServiceInfo(map.get("id"),
+                        map.get("address"),
+                        map.get("publicAddress"),
+                        map.get("group"),
+                        map.get("region"),
+                        map.get("branch"),
+                        Integer.parseInt(map.get("maxPlayers"))
+                );
+                serviceInfo.setPlayers(map.get("players").isEmpty()
+                        ? new HashSet<>()
+                        : Arrays.stream(map.get("players").split(",")).collect(Collectors.toSet())
+                );
+
+                data.add(serviceInfo);
+            });
+
+            return data;
+        });
+    }
+
+    public void updateServiceField(String id, String field, String value) {
+        JBridgeCore.getInstance().execute(jedis -> {
+            jedis.hset(String.format(HASH_SERVICES, id), field, value);
+        });
+    }
+
+    public void storeService(ServiceInfo serviceInfo) {
+        JBridgeCore.getInstance().execute(jedis -> {
+            jedis.hset(String.format(HASH_SERVICES, serviceInfo.getShortId()), new HashMap<String, String>() {{
+                put("id", serviceInfo.getId());
+                put("address", serviceInfo.getAddress());
+                put("publicAddress", serviceInfo.getPublicAddress());
+                put("group", serviceInfo.getGroup());
+                put("region", serviceInfo.getRegion());
+                put("branch", serviceInfo.getBranch());
+                put("maxPlayers", String.valueOf(serviceInfo.getMaxPlayers()));
+                put("players", "");
+            }});
+        });
+    }
+
+    public void removeService(String id) {
+        JBridgeCore.getInstance().execute(jedis -> {
+            String hash = String.format(HASH_SERVICES, id);
+            if (!jedis.exists(hash)) return;
+
+            String[] map = jedis.hgetAll(hash)
+                    .keySet()
+                    .toArray(new String[0]);
+
+            jedis.hdel(hash, map);
+        });
+    }
+
+    public Set<ServiceInfo> filterServices(Predicate<? super ServiceInfo> predicate) {
+        return getServices()
+                .stream()
+                .filter(predicate)
+                .collect(Collectors.toSet());
     }
 
     public ServiceInfo getService(String id) {
@@ -26,14 +92,7 @@ public class ServiceHandler {
         return getService(id) != null;
     }
 
-    public List<ServiceInfo> filterServices(Predicate<? super ServiceInfo> predicate) {
-        return getServiceInfoMapCache().values()
-                .stream()
-                .filter(predicate)
-                .collect(Collectors.toList());
-    }
-
-    public List<ServiceInfo> getGroupServices(String group) {
+    public Set<ServiceInfo> getGroupServices(String group) {
         return filterServices(service -> service.getGroup().equalsIgnoreCase(group));
     }
 
@@ -59,7 +118,7 @@ public class ServiceHandler {
     }
 
     public int getPlayersOnline() {
-        return getServiceInfoMapCache().values()
+        return getServices()
                 .stream()
                 .mapToInt(ServiceInfo::getPlayersOnline)
                 .sum();
@@ -73,7 +132,7 @@ public class ServiceHandler {
     }
 
     public int getMaxPlayers() {
-        return getServiceInfoMapCache().values()
+        return getServices()
                 .stream()
                 .mapToInt(ServiceInfo::getMaxPlayers)
                 .sum();
@@ -86,7 +145,7 @@ public class ServiceHandler {
     }
 
     public ServiceInfo getSortedServiceFromGroups(List<String> groups, SortMode sortMode) {
-        List<ServiceInfo> serviceList = new ArrayList<>();
+        Set<ServiceInfo> serviceList = new HashSet<>();
 
         groups.forEach(group -> serviceList.addAll(getGroupServices(group)));
 
@@ -97,7 +156,7 @@ public class ServiceHandler {
         return getSortedServiceFromList(getGroupServices(group), sortMode);
     }
 
-    public ServiceInfo getSortedServiceFromList(List<ServiceInfo> serviceList, SortMode sortMode) {
+    public ServiceInfo getSortedServiceFromList(Set<ServiceInfo> serviceList, SortMode sortMode) {
         ServiceInfo serviceInfo = null;
 
         switch (sortMode) {

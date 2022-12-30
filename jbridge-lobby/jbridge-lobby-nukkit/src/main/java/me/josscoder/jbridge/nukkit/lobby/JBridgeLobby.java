@@ -7,8 +7,9 @@ import me.josscoder.jbridge.nukkit.lobby.command.LobbyCommand;
 import me.josscoder.jbridge.service.ServiceHandler;
 import me.josscoder.jbridge.service.ServiceInfo;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 public class JBridgeLobby extends PluginBase {
@@ -29,13 +30,15 @@ public class JBridgeLobby extends PluginBase {
         saveDefaultConfig();
 
         lobbyGroups = getConfig().getStringList("lobby-groups");
-        sortMode = ServiceHandler.SortMode.valueOf(getConfig().getString("sort-mode"));
+        sortMode = ServiceHandler.SortMode.valueOf(getConfig().getString("sort-mode",
+                ServiceHandler.SortMode.LOWEST.name())
+        );
 
         getServer().getCommandMap().register("lobby", new LobbyCommand());
     }
 
-    public List<ServiceInfo> getLobbyServices() {
-        List<ServiceInfo> services = new ArrayList<>();
+    public Set<ServiceInfo> getLobbyServices() {
+        Set<ServiceInfo> services = new HashSet<>();
         lobbyGroups.forEach(lobbyGroup -> services.addAll(
                 JBridgeCore.getInstance().getServiceHandler().getGroupServices(lobbyGroup)
         ));

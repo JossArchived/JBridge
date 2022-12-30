@@ -5,8 +5,6 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import lombok.Getter;
 import me.josscoder.jbridge.JBridgeCore;
-import me.josscoder.jbridge.packet.base.ServiceCacheUpdatePacket;
-import me.josscoder.jbridge.service.ServiceInfo;
 import redis.clients.jedis.Jedis;
 
 import java.util.*;
@@ -19,23 +17,6 @@ public class PacketManager {
 
     @Getter
     private final List<PacketHandler> packetHandlers = new ArrayList<>();
-
-    public PacketManager() {
-        subscribePacket(new ServiceCacheUpdatePacket());
-        addPacketHandler(new PacketHandler() {
-            @Override
-            public void onSend(DataPacket packet) {}
-
-            @Override
-            public void onReceive(DataPacket packet) {
-                if (!(packet instanceof ServiceCacheUpdatePacket)) return;
-
-                JBridgeCore core = JBridgeCore.getInstance();
-                ServiceInfo cache = core.getGson().fromJson(((ServiceCacheUpdatePacket) packet).cache, ServiceInfo.class);
-                core.getServiceInfoCache().put(cache.getShortId(), cache);
-            }
-        });
-    }
 
     public void subscribePacket(DataPacket ...packets) {
         Arrays.stream(packets).forEach(packet -> {

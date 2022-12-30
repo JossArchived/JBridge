@@ -13,7 +13,7 @@ import me.josscoder.jbridge.JBridgeCore;
 import me.josscoder.jbridge.service.ServiceInfo;
 import me.josscoder.jbridge.waterdogpe.command.ServerListCommand;
 import me.josscoder.jbridge.waterdogpe.command.WhereAmICommand;
-import me.josscoder.jbridge.waterdogpe.task.ServicePongTask;
+import me.josscoder.jbridge.waterdogpe.task.ServiceHandlingTask;
 
 import java.util.UUID;
 
@@ -31,6 +31,14 @@ public class JBridgeWaterdogPE extends Plugin {
     public void onEnable() {
         loadConfig();
 
+        setupService();
+
+        handleCommands();
+        subscribeEvents();
+        getProxy().getScheduler().scheduleRepeating(new ServiceHandlingTask(), 20 * 10, true);
+    }
+
+    private void setupService() {
         Configuration config = getConfig();
 
         JBridgeCore jBridgeCore = new JBridgeCore();
@@ -41,19 +49,20 @@ public class JBridgeWaterdogPE extends Plugin {
                 new WaterdogPELogger()
         );
 
-        ServiceInfo serviceInfo = new ServiceInfo(
-                config.getString("service.id", UUID.randomUUID().toString().substring(0, 8)),
+        if (!config.exists("service.id")) {
+            config.set("service.id", UUID.randomUUID().toString().substring(0, 8));
+            config.save();
+        }
+
+        jBridgeCore.setCurrentServiceInfo(new ServiceInfo(
+                config.getString("service.id"),
+                "",
                 "",
                 config.getString("service.group", "proxy"),
                 config.getString("service.region", "us"),
                 config.getString("service.branch", "dev"),
                 -1
-        );
-        jBridgeCore.setCurrentServiceInfo(serviceInfo);
-
-        handleCommands();
-        subscribeEvents();
-        getProxy().getScheduler().scheduleRepeating(new ServicePongTask(), 20 * 5, true);
+        ));
     }
 
     private void handleCommands() {

@@ -28,7 +28,7 @@ public class LobbyCommand extends Command {
             return false;
         }
 
-        JBridgeNukkit.getInstance().transferPlayer(player, sortedLobbyService);
+        JBridgeNukkit.getInstance().networkTransfer(player, sortedLobbyService);
         return true;
     }
 }

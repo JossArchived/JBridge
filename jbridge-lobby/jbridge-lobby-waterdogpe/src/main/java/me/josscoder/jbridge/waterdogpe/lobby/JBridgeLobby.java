@@ -8,8 +8,9 @@ import me.josscoder.jbridge.service.ServiceInfo;
 import me.josscoder.jbridge.waterdogpe.lobby.proxyhandler.JoinHandler;
 import me.josscoder.jbridge.waterdogpe.lobby.proxyhandler.ReconnectHandler;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 public class JBridgeLobby extends Plugin {
@@ -36,8 +37,8 @@ public class JBridgeLobby extends Plugin {
         getProxy().setReconnectHandler(new ReconnectHandler());
     }
 
-    public List<ServiceInfo> getLobbyServices() {
-        List<ServiceInfo> services = new ArrayList<>();
+    public Set<ServiceInfo> getLobbyServices() {
+        Set<ServiceInfo> services = new HashSet<>();
         lobbyGroups.forEach(lobbyGroup -> services.addAll(
                 JBridgeCore.getInstance().getServiceHandler().getGroupServices(lobbyGroup)
         ));
