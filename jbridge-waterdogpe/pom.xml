@@ -6,7 +6,7 @@
     <parent>
         <groupId>me.josscoder.jbridge</groupId>
         <artifactId>JBridge</artifactId>
-        <version>1.0.5</version>
+        <version>1.0.7</version>
     </parent>
 
     <groupId>me.josscoder.jbridge.waterdogpe</groupId>
@@ -64,13 +64,13 @@
         <dependency>
             <groupId>me.josscoder.jbridge</groupId>
             <artifactId>jbridge-common</artifactId>
-            <version>1.0.5</version>
+            <version>1.0.7</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>dev.waterdog.waterdogpe</groupId>
             <artifactId>waterdog</artifactId>
-            <version>1.2.2</version>
+            <version>1.2.3</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
