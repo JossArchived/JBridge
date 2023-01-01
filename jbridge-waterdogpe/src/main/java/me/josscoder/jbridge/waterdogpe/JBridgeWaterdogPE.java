@@ -61,7 +61,7 @@ public class JBridgeWaterdogPE extends Plugin {
         handleCommands();
         subscribeEvents();
 
-        int servicesHandlingInterval = config.getInt("services-handling-interval", 5);
+        int servicesHandlingInterval = config.getInt("service.handling-interval", 5);
 
         getProxy().getScheduler().scheduleRepeating(new ServicePongTask(),
                 20 * servicesHandlingInterval,

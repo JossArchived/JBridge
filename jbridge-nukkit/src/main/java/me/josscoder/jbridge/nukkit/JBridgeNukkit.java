@@ -60,7 +60,7 @@ public class JBridgeNukkit extends PluginBase {
 
         registerCommands();
 
-        int intervalToSendUpdate = config.getInt("interval-to-send-update", 1);
+        int intervalToSendUpdate = config.getInt("service.interval-to-send-update", 1);
 
         getServer().getScheduler().scheduleRepeatingTask(new ServicePingTask(),
                 20 * intervalToSendUpdate,
