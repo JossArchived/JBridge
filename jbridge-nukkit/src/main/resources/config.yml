@@ -10,3 +10,4 @@ service:
   group: "hub"
   region: "us"
   branch: "dev"
+  interval-to-send-update: 1

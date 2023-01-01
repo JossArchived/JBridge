@@ -9,3 +9,4 @@ service:
   id: "proxy-1"
   region: "us"
   branch: "dev"
+  services-handling-interval: 5

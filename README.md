@@ -60,6 +60,8 @@ As I mentioned before, jbridge can manage services by groups, you can see more a
 
 ## Download and setup 🛒
 
+[![Java CI with Maven](https://github.com/Josscoder/JBridge/actions/workflows/maven.yml/badge.svg)](https://github.com/Josscoder/JBridge/actions/workflows/maven.yml)
+
 <details>
     <summary>Nukkit</summary>
 
@@ -103,7 +105,6 @@ service: #configuration of your service
 ### Add JBridge to your project
 
 [![](https://jitpack.io/v/Josscoder/JBridge.svg)](https://jitpack.io/#Josscoder/JBridge)
-[![Java CI with Maven](https://github.com/Josscoder/JBridge/actions/workflows/maven.yml/badge.svg)](https://github.com/Josscoder/JBridge/actions/workflows/maven.yml)  
 
 ### Common
 ```xml

@@ -6,6 +6,8 @@ import dev.waterdog.waterdogpe.event.defaults.PreTransferEvent;
 import dev.waterdog.waterdogpe.event.defaults.ProxyPingEvent;
 import dev.waterdog.waterdogpe.event.defaults.ProxyQueryEvent;
 import dev.waterdog.waterdogpe.logger.Color;
+import dev.waterdog.waterdogpe.network.serverinfo.ServerInfo;
+import dev.waterdog.waterdogpe.player.ProxiedPlayer;
 import dev.waterdog.waterdogpe.plugin.Plugin;
 import dev.waterdog.waterdogpe.utils.config.Configuration;
 import lombok.Getter;
@@ -41,8 +43,13 @@ public class JBridgeWaterdogPE extends Plugin {
                 new WaterdogPELogger()
         );
 
+        if (config.exists("service.id")) {
+            config.set("service.id", UUID.randomUUID().toString().substring(0, 8));
+            config.save();
+        }
+
         ServiceInfo serviceInfo = new ServiceInfo(
-                config.getString("service.id", UUID.randomUUID().toString().substring(0, 8)),
+                config.getString("service.id"),
                 "",
                 config.getString("service.group", "proxy"),
                 config.getString("service.region", "us"),
@@ -53,7 +60,13 @@ public class JBridgeWaterdogPE extends Plugin {
 
         handleCommands();
         subscribeEvents();
-        getProxy().getScheduler().scheduleRepeating(new ServicePongTask(), 20 * 5, true);
+
+        int servicesHandlingInterval = config.getInt("services-handling-interval", 5);
+
+        getProxy().getScheduler().scheduleRepeating(new ServicePongTask(),
+                20 * servicesHandlingInterval,
+                true
+        );
     }
 
     private void handleCommands() {
@@ -79,7 +92,15 @@ public class JBridgeWaterdogPE extends Plugin {
     }
 
     private void onTransfer(PreTransferEvent event) {
-        event.getPlayer().sendMessage(Color.GRAY + "Connecting you to " + event.getTargetServer().getServerName());
+        ProxiedPlayer player = event.getPlayer();
+        ServerInfo targetServer = event.getTargetServer();
+
+        if (player.getServerInfo() == null ||
+                targetServer == null ||
+                player.getServerInfo().getServerName().equalsIgnoreCase(targetServer.getServerName())
+        ) return;
+
+        player.sendMessage(Color.GRAY + "Connecting you to " + targetServer.getServerName());
     }
 
     @Override

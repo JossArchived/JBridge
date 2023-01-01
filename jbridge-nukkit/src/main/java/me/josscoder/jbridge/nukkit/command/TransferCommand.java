@@ -14,7 +14,7 @@ public class TransferCommand extends Command {
     public TransferCommand() {
         super("transfer",
                 "Transfer to a specific server",
-                "/transfer <serverName>"
+                TextFormat.RED + "Usage: /transfer <server>"
         );
         setPermission("jbrdige.command.transfer");
     }
@@ -25,7 +25,7 @@ public class TransferCommand extends Command {
         Player player = (Player) sender;
 
         if (args.length == 0) {
-            player.sendMessage(TextFormat.RED + "Usage: " + getUsage());
+            player.sendMessage(getUsage());
             return true;
         }
 

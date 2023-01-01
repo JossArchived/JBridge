@@ -38,13 +38,18 @@ public class JBridgeNukkit extends PluginBase {
                 new NukkitLogger()
         );
 
+        if (!config.exists("service.id")) {
+            config.set("service.id", UUID.randomUUID().toString().substring(0, 8));
+            config.save();
+        }
+
         String branch = config.getString("service.branch", "dev");
         String address = config.getString("service.address", getServer().getIp());
 
         String finalAddress = (branch.startsWith("dev") ? "127.0.0.1" : address);
 
         ServiceInfo serviceInfo = new ServiceInfo(
-                config.getString("service.id", UUID.randomUUID().toString().substring(0, 8)),
+                config.getString("service.id"),
                 finalAddress + ":" + getServer().getPort(),
                 config.getString("service.group", "hub"),
                 config.getString("service.region", "us"),
@@ -54,7 +59,13 @@ public class JBridgeNukkit extends PluginBase {
         jBridgeCore.setCurrentServiceInfo(serviceInfo);
 
         registerCommands();
-        getServer().getScheduler().scheduleRepeatingTask(new ServicePingTask(), 20, true);
+
+        int intervalToSendUpdate = config.getInt("interval-to-send-update", 1);
+
+        getServer().getScheduler().scheduleRepeatingTask(new ServicePingTask(),
+                20 * intervalToSendUpdate,
+                true
+        );
     }
 
     private void registerCommands() {
