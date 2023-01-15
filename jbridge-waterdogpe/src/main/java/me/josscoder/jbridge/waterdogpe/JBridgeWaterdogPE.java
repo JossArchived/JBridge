@@ -43,7 +43,7 @@ public class JBridgeWaterdogPE extends Plugin {
                 new WaterdogPELogger()
         );
 
-        if (config.exists("service.id")) {
+        if (!config.exists("service.id")) {
             config.set("service.id", UUID.randomUUID().toString().substring(0, 8));
             config.save();
         }
