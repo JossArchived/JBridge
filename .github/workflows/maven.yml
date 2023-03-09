@@ -9,9 +9,6 @@ on:
   pull_request:
     branches: [ "release" ]
 
-env:
-  JBRIDGE_VERSION: "1.0.7"
-
 jobs:
   build:
     name: Create Build
@@ -31,13 +28,18 @@ jobs:
       - name: Build
         run: mvn clean install
 
+      - name: Get Maven version
+        run: |
+          VERSION=$(mvn -q -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec)
+          echo "VERSION=${VERSION}" >> $GITHUB_ENV        
+
       - name: Upload Artifact
         uses: ncipollo/release-action@v1.10.0
         with:
           artifacts: ${{ github.workspace }}/jbridge-common/target/*.jar, ${{ github.workspace }}/jbridge-nukkit/target/*.jar, ${{ github.workspace }}/jbridge-waterdogpe/target/*.jar, ${{ github.workspace }}/jbridge-lobby/jbridge-lobby-nukkit/target/*.jar, ${{ github.workspace }}/jbridge-lobby/jbridge-lobby-waterdogpe/target/*.jar
           draft: false
-          name: Release v${{ env.JBRIDGE_VERSION }}
-          tag: v${{ env.JBRIDGE_VERSION }}
+          name: Release v${{ env.VERSION }}
+          tag: ${{ env.VERSION }}
           token: ${{ secrets.GITHUB_TOKEN }}
           body: "The artifacts are kept up to date with the branch release."
           commit: ${{ github.sha }}
