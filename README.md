@@ -330,4 +330,4 @@ public class Test {
 - [NetherGames: Inspiration](https://forums.nethergames.org/threads/netsys-network-communication-system.10514/)
 
 ## License 🚩
-JBridge is licensed under the permissive GNU GENERAL PUBLIC LICENSE. Please see [`LICENSE`](https://github.com/Josscoder/JBridge/blob/release/LICENSE) for more information.
+JBridge is licensed under the permissive Apache License 2.0 LICENSE. Please see [`LICENSE`](https://github.com/Josscoder/JBridge/blob/release/LICENSE) for more information.
